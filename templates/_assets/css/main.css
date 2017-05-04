@@ -1,0 +1,173 @@
+body.home {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #4a4a4a;
+    font-size: 1em;
+    margin-top: 5%;
+    text-align: center;
+}
+
+.home h1.site-title {
+    color: #57b7d1;
+    letter-spacing: -3px;
+    font-family: 'Lato', sans-serif;
+    font-size: 100px;
+    font-weight: 200;
+    margin: 0;
+}
+
+.home a {
+    display: block;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #fff;
+    background: #57b7d1;
+    padding: 1em;
+    margin-top: 2em;
+}
+.home a:hover {
+    background: #82c9dd;
+}
+
+.semi-transparent-white-cover {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(255,255,255,0.5);
+    z-index: 100;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.app {
+    font-family: "Titillium Web", sans-serif;
+    font-size: 14px;
+}
+
+header.navbar .navbar-brand {
+    background-image: url("../../image/logo.png");
+}
+
+.dropdown-menu {
+    display: block;
+}
+
+span.decimal {
+    font-size: 0.7em;
+}
+
+.transaction {
+    padding-left: 0.5em;
+    margin-bottom: 0.25em;
+    clear: both;
+}
+.transaction h1 {
+    margin-left: 0.5em;
+}
+.transaction.b {
+    background-color: #729af2;
+}
+
+.transaction > .transaction-head {
+    padding-bottom: 0.2em;
+}
+.transaction .transaction-head .account {
+    display: inline-block;
+    padding: 0.2em 0.6em;
+}
+.transaction .transaction-head .actions {
+    float: right;
+    font-size: 0.75em;
+    margin-top: 0.4em;
+    margin-right: 1em;
+}
+
+.transaction.e, .transaction.e .transaction-head .account {
+    background-color: #f0b1b1;
+}
+.transaction.e > .transaction-head, .transaction.e > .transaction-body {
+    background-color: #fbecec;
+}
+.transaction.e h1 {
+    color: #940a0a;
+}
+.transaction.i, .transaction.i .transaction-head .account {
+    background-color: #9bf597;
+}
+.transaction.i > .transaction-head, .transaction.i > .transaction-body {
+    background-color: #e8f6e7;
+}
+.transaction.i h1 {
+    color: #10780b;
+}
+.transaction.x, .transaction.x .transaction-head .account {
+    background-color: #d197f5;
+}
+.transaction.x > .transaction-head, .transaction.x > .transaction-body {
+    background-color: #e9d6f2;
+}
+.transaction.x h1 {
+    color: #5b0b78;
+}
+
+.transaction-body {
+    padding: 0.75em;
+    padding-bottom: 0;
+    background-color: inherit;
+    overflow: hidden;
+}
+.transaction-body.white {
+    background-color: #fff;
+}
+.transaction h1 {
+    float: right;
+}
+
+.transaction span.date {
+    font-weight: bold;
+    font-size: 0.75em;
+}
+
+.transaction-separator {
+    background-color: #e1e1e1;
+    margin-top: 1.25em;
+    margin-bottom: 0.25em;
+    text-align: center;
+}
+
+.tags {
+    background-color: #e7e7e7;
+}
+.transaction.i .tags .transaction-body {
+    background-color: #9bf597;
+}
+.transaction.e .tags .transaction-body {
+    background-color: #f0b1b1;
+}
+.transaction.x .tags .transaction-body {
+    background-color: #d8b0f0;
+}
+.tags .tag {
+    color: #417d96;
+    margin-right: 0.5em;
+    cursor: pointer;
+}
+
+form label {
+    margin-bottom: 0;
+}
+
+label.form-control-label {
+    font-weight: bold;
+}
+
+hr.float-clear {
+    clear: both;
+    border: none;
+    margin: 0;
+    padding: 0;;
+}
