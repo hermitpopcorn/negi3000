@@ -190,7 +190,7 @@ class App extends \App\Controller\BaseController
         unset($transaction->account_id);
         $transaction->account = $accUID;
         $transaction->tags = $transaction->getTags();
-        if($transaction->target_id) {
+        if($transaction->target) {
             $targetUID = $transaction->target->uid;
             unset($transaction->target);
             $transaction->target = $targetUID;
@@ -250,7 +250,7 @@ class App extends \App\Controller\BaseController
             $transaction->excludeFromBalance = (boolean) $transaction->account->exclude_from_balance;
             unset($transaction->account);
             $transaction->account = $accountUID;
-            if($transaction->target_id) {
+            if($transaction->target) {
                 $targetUID = $transaction->target->uid;
                 $transaction->targetName = $transaction->target->name;
                 unset($transaction->target);
@@ -298,7 +298,7 @@ class App extends \App\Controller\BaseController
             $transaction->excludeFromBalance = (boolean) $transaction->account->exclude_from_balance;
             unset($transaction->account);
             $transaction->account = $accountUID;
-            if($transaction->target_id) {
+            if($transaction->target) {
                 $targetUID = $transaction->target->uid;
                 $transaction->targetName = $transaction->target->name;
                 unset($transaction->target);

@@ -43,7 +43,14 @@
                                         <a href="javascript:;" @click="deleteTransaction(transaction.uid)">delete</a>
                                     </div>
                                     <span class="account" v-if="transaction.type !== 'x'">{{ transaction.accountName }}</span>
-                                    <span class="account" v-if="transaction.type === 'x'">{{ transaction.accountName }} > {{ transaction.targetName }}</span>
+                                    <span class="account" v-if="transaction.type === 'x'">
+                                        <template v-if="transaction.target">
+                                            {{ transaction.accountName }} > {{ transaction.targetName }}
+                                        </template>
+                                        <template v-else>
+                                            {{ transaction.accountName }} > ???
+                                        </template>
+                                    </span>
                                 </div>
                                 <div class="transaction-body">
                                     <h1 v-html="$options.filters.currency(transaction.amount)"/>
