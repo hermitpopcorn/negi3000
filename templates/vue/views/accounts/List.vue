@@ -9,13 +9,13 @@
                             <p>Initial balance: <span v-html="$options.filters.currency(account.initialBalance)"/></p>
                             <p v-if="account.excludeFromBalance" style="color:#176c82">excluded from total balance</p>
                             <p v-if="!account.excludeFromBalance">&nbsp;</p>
-                            <p><a class="btn btn-xs btn-primary" style="color:white" @click="editAccount(account.uid)">Edit</a><a class="btn btn-xs btn-danger" style="color:white" @click="deleteAccount(account.uid)">Delete</a></p>
+                            <p><a class="btn btn-xs btn-primary" style="color:white" @click="editAccount(account.uid)" v-scroll-to="'#account-form, 10px'">Edit</a><a class="btn btn-xs btn-danger" style="color:white" @click="deleteAccount(account.uid)">Delete</a></p>
                         </div>
                     </div>
                 </div>
             </template>
             <div class="col-md-3">
-                <div class="account card" style="cursor:pointer" @click="addNew">
+                <div class="account card" style="cursor:pointer" @click="addNew" v-scroll-to="'#account-form, 10px'">
                     <div class="card-block text-center">
                         <h1><i class="icon icon-plus"></i></h1>
                         <p>Add new account</p>
@@ -26,7 +26,7 @@
 
         <div class="row" v-if="form.show">
             <div class="col-12 col-lg-8 push-lg-2">
-                <div class="card">
+                <div class="card" id="account-form">
                     <div class="card-header" v-if="form.title" v-html="form.title" />
                     <div class="card-block">
                         <form>

@@ -5,11 +5,11 @@
                 <div class="input-block semi-transparent-white-cover" v-show="block"></div>
                 <div class="card">
                     <div class="card-block row p-0">
-                        <div class="col-sm-2 text-center pt-2 pb-2" v-on:click="previousMonth">
+                        <div class="col-2 text-center pt-2 pb-2" v-on:click="previousMonth">
                             <i class="icon-arrow-left"></i>
                         </div>
-                        <div class="col-sm-8 text-center pt-2 pb-2">{{ cursor.month | date('month') }} {{ cursor.year }}</div>
-                        <div class="col-sm-2 text-center pt-2 pb-2" v-on:click="nextMonth">
+                        <div class="col-8 text-center pt-2 pb-2">{{ cursor.month | date('month') }} {{ cursor.year }}</div>
+                        <div class="col-2 text-center pt-2 pb-2" v-on:click="nextMonth">
                             <i class="icon-arrow-right"></i>
                         </div>
                     </div>
