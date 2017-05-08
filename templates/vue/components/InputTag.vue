@@ -81,6 +81,14 @@ export default {
                 this.onChange(JSON.parse(JSON.stringify(this.tags)));
             }
         },
+        splitTags(tag) {
+            var split = tag.split(/[ #]/);
+            for(let i = 0; i < split.length; i++) {
+                if(split[i].length >= 1) {
+                    this.addNew(split[i])
+                }
+            }
+        }
     },
 };
 </script>
@@ -95,7 +103,7 @@ export default {
         <input v-if="!readOnly" v-bind:placeholder="placeholder" type="text" v-model="newTag"
             v-on:keydown.delete.stop="removeLastTag()" v-on:keydown.enter.prevent.stop="addNew(newTag)"
             v-on:keydown.32.prevent.stop="addNew(newTag)" v-on:keydown.188.prevent.stop="addNew(newTag)" class="new-tag"
-            @keydown="keydownEvent"
+            @keydown="keydownEvent" @blur="splitTags(newTag)"
             />
     </div>
 

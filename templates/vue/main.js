@@ -3,9 +3,11 @@ import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import VueFilters from './filters'
 import VueSweetAlert from 'vue-sweetalert'
+import VueScrollTo from 'vue-scroll-to'
 Vue.use(VueRouter)
 Vue.use(VueResource)
 Vue.use(VueSweetAlert)
+Vue.use(VueScrollTo)
 Vue.filter('currency', VueFilters.currency)
 Vue.filter('date', VueFilters.date)
 
