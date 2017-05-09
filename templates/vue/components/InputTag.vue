@@ -115,7 +115,6 @@ export default {
     overflow: hidden;
     cursor: text;
     text-align: left;
-    -webkit-appearance: textfield;
     padding-bottom: 0;
 }
 
