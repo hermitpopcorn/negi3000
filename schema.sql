@@ -26,7 +26,7 @@ CREATE TABLE `accounts` (
   `user_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `initial_balance` decimal(15,2) NOT NULL DEFAULT '0.00',
-  `exclude_from_balance` tinyint(1) NOT NULL DEFAULT '0',
+  `is_sink` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -35,7 +35,7 @@ CREATE TABLE `accounts` (
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`id`, `uid`, `user_id`, `name`, `initial_balance`, `exclude_from_balance`, `created_at`, `updated_at`) VALUES
+INSERT INTO `accounts` (`id`, `uid`, `user_id`, `name`, `initial_balance`, `is_sink`, `created_at`, `updated_at`) VALUES
 (1, 'testacc1', 1, 'Bank', '0.00', 0, '2017-05-08 07:16:55', '2017-05-08 07:16:55'),
 (2, 'testacc2', 1, 'Wallet', '0.00', 0, '2017-05-08 07:16:55', '2017-05-08 07:16:55');
 

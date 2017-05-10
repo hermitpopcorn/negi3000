@@ -207,7 +207,7 @@ export default {
 
             if(self.transactions.length > 0) {
                 for(let i = 0; i < self.transactions.length; i++) {
-                    if(self.transactions[i].excludeFromBalance) {
+                    if(self.transactions[i].isSink) {
                         continue;
                     }
                     if(self.transactions[i].type == 'i') {

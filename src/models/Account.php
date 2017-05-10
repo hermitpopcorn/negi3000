@@ -38,7 +38,7 @@ class Account extends \Illuminate\Database\Eloquent\Model
         return $acc->id;
     }
 
-    public function doInsert($UIDGenerator, $userID, $name, $initialBalance, $excludeFromBalance)
+    public function doInsert($UIDGenerator, $userID, $name, $initialBalance, $isSink)
     {
         $new = new self();
 
@@ -52,7 +52,7 @@ class Account extends \Illuminate\Database\Eloquent\Model
         $new->user_id = $userID;
         $new->name = $name;
         $new->initial_balance = $initialBalance;
-        $new->exclude_from_balance = $excludeFromBalance;
+        $new->is_sink = $isSink;
         $save = $new->save();
 
         if(!$save) {
@@ -62,7 +62,7 @@ class Account extends \Illuminate\Database\Eloquent\Model
         return $new;
     }
 
-    public function doUpdate($accountUID, $userID, $name, $initialBalance, $excludeFromBalance)
+    public function doUpdate($accountUID, $userID, $name, $initialBalance, $isSink)
     {
         $account = $this->where('uid', $accountUID)->first();
         if(!$account) { return false; }
@@ -70,7 +70,7 @@ class Account extends \Illuminate\Database\Eloquent\Model
         $account->user_id = $userID;
         $account->name = $name;
         $account->initial_balance = $initialBalance;
-        $account->exclude_from_balance = $excludeFromBalance;
+        $account->is_sink = $isSink;
         $save = $account->save();
 
         if(!$save) {

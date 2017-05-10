@@ -79,8 +79,8 @@ class App extends \App\Controller\BaseController
             unset($account->updated_at);
             $account->initialBalance = $account->initial_balance;
             unset($account->initial_balance);
-            $account->excludeFromBalance = (boolean) $account->exclude_from_balance;
-            unset($account->exclude_from_balance);
+            $account->isSink = (boolean) $account->is_sink;
+            unset($account->is_sink);
         }
         unset($account);
 
@@ -110,8 +110,8 @@ class App extends \App\Controller\BaseController
         unset($account->updated_at);
         $account->initialBalance = $account->initial_balance;
         unset($account->initial_balance);
-        $account->excludeFromBalance = (boolean) $account->exclude_from_balance;
-        unset($account->exclude_from_balance);
+        $account->isSink = (boolean) $account->is_sink;
+        unset($account->is_sink);
 
         return $response->withJSON(['account' => $account]);
     }
@@ -247,7 +247,7 @@ class App extends \App\Controller\BaseController
             unset($transaction->user_id);
             $accountUID = $transaction->account->uid;
             $transaction->accountName = $transaction->account->name;
-            $transaction->excludeFromBalance = (boolean) $transaction->account->exclude_from_balance;
+            $transaction->isSink = (boolean) $transaction->account->is_sink;
             unset($transaction->account);
             $transaction->account = $accountUID;
             if($transaction->target) {
@@ -295,7 +295,7 @@ class App extends \App\Controller\BaseController
             unset($transaction->user_id);
             $accountUID = $transaction->account->uid;
             $transaction->accountName = $transaction->account->name;
-            $transaction->excludeFromBalance = (boolean) $transaction->account->exclude_from_balance;
+            $transaction->isSink = (boolean) $transaction->account->is_sink;
             unset($transaction->account);
             $transaction->account = $accountUID;
             if($transaction->target) {
@@ -320,14 +320,14 @@ class App extends \App\Controller\BaseController
         $userID = $segment->get('user');
         $name = $request->getParam('name');
         $initialBalance = $request->getParam('initialBalance');
-        $excludeFromBalance = $request->getParam('excludeFromBalance');
+        $isSink = $request->getParam('isSink');
 
         $insert = false;
 
         // Verify user and account
         $accountsModel = $this->get('models/accounts');
         $UIDGenerator = function() { return $this->get('rsgen/identifier'); };
-        $newAccount = $accountsModel->doInsert($UIDGenerator, $userID, $name, $initialBalance, (boolean) $excludeFromBalance);
+        $newAccount = $accountsModel->doInsert($UIDGenerator, $userID, $name, $initialBalance, (boolean) $isSink);
         if($newAccount) {
             $insert = $newAccount->uid;
         }
@@ -350,7 +350,7 @@ class App extends \App\Controller\BaseController
         $userID = $segment->get('user');
         $name = $request->getParam('name');
         $initialBalance = $request->getParam('initialBalance');
-        $excludeFromBalance = $request->getParam('excludeFromBalance');
+        $isSink = $request->getParam('isSink');
 
         $update = false;
 
@@ -358,7 +358,7 @@ class App extends \App\Controller\BaseController
         $accountsModel = $this->get('models/accounts');
         $check = $accountsModel->check($userID, $accountUID);
         if($check) {
-            $account = $accountsModel->doUpdate($accountUID, $userID, $name, $initialBalance, (boolean) $excludeFromBalance);
+            $account = $accountsModel->doUpdate($accountUID, $userID, $name, $initialBalance, (boolean) $isSink);
             if($account) {
                 $update = $account->uid;
             }

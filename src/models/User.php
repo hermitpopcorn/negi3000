@@ -78,7 +78,7 @@ class User extends \Illuminate\Database\Eloquent\Model
         $balance = 0;
         $accounts = $this->accounts;
         foreach($accounts as $account) {
-            if(!$account->exclude_from_balance) {
+            if(!$account->is_sink) {
                 $balance += $account->getBalance($uptilDate);
             }
         }
