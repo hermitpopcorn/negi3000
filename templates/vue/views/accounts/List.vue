@@ -12,7 +12,7 @@
                             <template v-if="account.isSink">
                                 <p v-if="account.isSink" style="color:#176c82">marked as a money sink</p>
                             </template>
-                            <p><a class="btn btn-xs btn-primary" style="color:white" @click="editAccount(account.uid)" v-scroll-to="'#account-form, 10px'">Edit</a><a class="btn btn-xs btn-danger" style="color:white" @click="deleteAccount(account.uid)">Delete</a></p>
+                            <p><a class="btn btn-xs btn-primary" style="color:white" @click="editAccount(account.uid)" v-scroll-to="'#account-form-row, 10px'">Edit</a><a class="btn btn-xs btn-danger" style="color:white" @click="deleteAccount(account.uid)">Delete</a></p>
                         </div>
                     </div>
                 </div>
@@ -27,8 +27,8 @@
             </div>
         </div>
 
-        <div class="row" v-if="form.show">
-            <div class="col-12 col-lg-8 push-lg-2">
+        <div class="row" id="account-form-row">
+            <div class="col-12 col-lg-8 push-lg-2" v-if="form.show">
                 <div class="card" id="account-form">
                     <div class="card-header" v-if="form.title" v-html="form.title" />
                     <div class="card-block">
