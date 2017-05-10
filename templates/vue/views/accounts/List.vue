@@ -18,7 +18,7 @@
                 </div>
             </template>
             <div class="col-md-3">
-                <div class="account card" style="cursor:pointer" @click="addNew" v-scroll-to="'#account-form, 10px'">
+                <div class="account card" style="cursor:pointer" @click="addNew" v-scroll-to="'#account-form-row, 10px'">
                     <div class="card-block text-center">
                         <h1><i class="icon icon-plus"></i></h1>
                         <p>Add new account</p>
