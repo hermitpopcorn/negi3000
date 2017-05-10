@@ -14,14 +14,16 @@
 
         <div class="row">
             <template v-for="account in accounts">
-                <div class="col-12">
-                    <div class="card card-inverse" :class="cardColor(account.balance)">
-                        <div class="card-block pb-0">
-                            <h4 class="mb-0" v-html="$options.filters.currency(account.balance)"/>
-                            <p>{{ account.name }} Balance</p>
+                <template v-if="account.balance !== null">
+                    <div class="col-12">
+                        <div class="card card-inverse" :class="cardColor(account.balance)">
+                            <div class="card-block pb-0">
+                                <h4 class="mb-0" v-html="$options.filters.currency(account.balance)"/>
+                                <p>{{ account.name }} Balance</p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </template>
             </template>
         </div>
 
@@ -59,13 +61,17 @@ export default {
         self.$http.get('api/accounts').then(response => {
             self.accounts = response.body.accounts
             for(let i = 0; i < self.accounts.length; i++) {
-                self.$set(self.accounts[i], 'balance', 0)
-                self.$http.get('api/balance/'+self.accounts[i].uid).then(response => {
-                    self.accounts[i].balance = response.body.balance
-                    self.$set(self.accounts[i], 'balance', response.body.balance)
-                }, response => {
+                if(!self.accounts[i].isSink) {
                     self.$set(self.accounts[i], 'balance', 0)
-                })
+                    self.$http.get('api/balance/'+self.accounts[i].uid).then(response => {
+                        self.accounts[i].balance = response.body.balance
+                        self.$set(self.accounts[i], 'balance', response.body.balance)
+                    }, response => {
+                        self.$set(self.accounts[i], 'balance', 0)
+                    })
+                } else {
+                    self.$set(self.accounts[i], 'balance', null)
+                }
             }
         }, response => {
             self.accounts = []

@@ -6,10 +6,13 @@
                     <div class="account card">
                         <div class="card-block text-center">
                             <h1>{{ account.name }}</h1>
-                            <p>Initial balance: <span v-html="$options.filters.currency(account.initialBalance)"/></p>
-                            <p v-if="account.excludeFromBalance" style="color:#176c82">excluded from total balance</p>
-                            <p v-if="!account.excludeFromBalance">&nbsp;</p>
-                            <p><a class="btn btn-xs btn-primary" style="color:white" @click="editAccount(account.uid)" v-scroll-to="'#account-form, 10px'">Edit</a><a class="btn btn-xs btn-danger" style="color:white" @click="deleteAccount(account.uid)">Delete</a></p>
+                            <template v-if="!account.isSink">
+                                <p>Initial balance: <span v-html="$options.filters.currency(account.initialBalance)"/></p>
+                            </template>
+                            <template v-if="account.isSink">
+                                <p v-if="account.isSink" style="color:#176c82">marked as a money sink</p>
+                            </template>
+                            <p><a class="btn btn-xs btn-primary" style="color:white" @click="editAccount(account.uid)" v-scroll-to="'#account-form-row, 10px'">Edit</a><a class="btn btn-xs btn-danger" style="color:white" @click="deleteAccount(account.uid)">Delete</a></p>
                         </div>
                     </div>
                 </div>
@@ -24,8 +27,8 @@
             </div>
         </div>
 
-        <div class="row" v-if="form.show">
-            <div class="col-12 col-lg-8 push-lg-2">
+        <div class="row" id="account-form-row">
+            <div class="col-12 col-lg-8 push-lg-2" v-if="form.show">
                 <div class="card" id="account-form">
                     <div class="card-header" v-if="form.title" v-html="form.title" />
                     <div class="card-block">
@@ -40,13 +43,17 @@
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label class="form-control-label">Initial Balance</label>
-                                    <vue-numeric ref="initialBalanceInput" class="form-control text-right" currency="" separator=" " v-model="form.initialBalance" :minus="false" :precision="2" name="initialBalance"></vue-numeric>
+                                    <vue-numeric ref="initialBalanceInput" class="form-control text-right" currency="" separator=" " v-model="form.initialBalance" :minus="false" :precision="2" name="initialBalance" :disabled="form.isSink"></vue-numeric>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <label class="form-control-label">Exclude from Total Balance</label>
-                                    <p style="text-align:right"><input name="excludeFromBalance" value="true" type="checkbox" v-model="form.excludeFromBalance"></p>
+                                    <label class="form-control-label">Mark as money sink</label>
+                                    <p class="text-right m-0"><input name="isSink" value="true" type="checkbox" v-model="form.isSink"></p>
+                                    <p class="form-text">
+                                        Accounts marked as money sink will not have its current balance
+                                        shown on the overview page, and also not counted towards the total balance.
+                                    </p>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -84,7 +91,7 @@ export default {
                 uid: null,
                 name: "",
                 initialBalance: 0,
-                excludeFromBalance: false
+                isSink: false
             }
         }
     },
@@ -110,7 +117,7 @@ export default {
             this.$set(this.form, 'uid', null)
             this.$set(this.form, 'name', "")
             this.$set(this.form, 'initialBalance', 0)
-            this.$set(this.form, 'excludeFromBalance', false)
+            this.$set(this.form, 'isSink', false)
             this.$set(this.form, 'block', false)
             this.$set(this.form, 'show', true)
         },
@@ -124,7 +131,7 @@ export default {
                 self.$set(self.form, 'uid', response.body.account.uid)
                 self.$set(self.form, 'name', response.body.account.name)
                 self.$set(self.form, 'initialBalance', response.body.account.initialBalance)
-                self.$set(self.form, 'excludeFromBalance', response.body.account.excludeFromBalance == 1 ? true : false)
+                self.$set(self.form, 'isSink', response.body.account.isSink == 1 ? true : false)
                 self.$set(self.form, 'block', false)
                 self.$set(self.form, 'show', true)
             }, response => {
@@ -180,7 +187,7 @@ export default {
                 csrfToken: window.user.csrfToken,
                 name: self.form.name,
                 initialBalance: self.form.initialBalance,
-                excludeFromBalance: self.form.excludeFromBalance
+                isSink: self.form.isSink
             }
 
             if(typeof self.form.uid == "undefined" || self.form.uid == null) {

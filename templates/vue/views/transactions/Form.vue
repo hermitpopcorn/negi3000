@@ -152,6 +152,10 @@ export default {
                 note: "",
                 date: moment().format("YYYY-MM-DD HH:mm"),
                 block: false
+            },
+            temp: {
+                account: null,
+                target: null
             }
         }
     },
@@ -164,8 +168,11 @@ export default {
 
         self.$http.get('api/accounts').then(response => {
             self.accounts = response.body.accounts
-            if(self.form.account == null) {
+            if(self.temp.account === null) {
                 self.$set(self.form, 'account', self.accounts[0].uid)
+            } else {
+                self.$set(self.form, 'account', self.temp.account)
+                self.$set(self.form, 'target', self.temp.target)
             }
         }, response => {
             self.accounts = []
@@ -178,7 +185,9 @@ export default {
                 self.$set(self.form, 'block', false)
                 self.$set(self.form, 'type', response.body.transaction.type)
                 self.$set(self.form, 'account', response.body.transaction.account)
+                self.$set(self.temp, 'account', response.body.transaction.account)
                 self.$set(self.form, 'target', response.body.transaction.target)
+                self.$set(self.temp, 'target', response.body.transaction.target)
                 self.$set(self.form, 'tags', response.body.transaction.tags)
                 self.$set(self.form, 'amount', response.body.transaction.amount)
                 self.$set(self.form, 'note', response.body.transaction.note)
