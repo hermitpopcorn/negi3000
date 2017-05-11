@@ -94,6 +94,7 @@ class User extends \Illuminate\Database\Eloquent\Model
         $balance = 0;
         $accounts = $this->accounts;
         foreach($accounts as $account) {
+            if($account->is_sink) { continue; }
             $balance += $account->getIncome($year, $month, $date);
         }
         return $balance;
@@ -108,6 +109,7 @@ class User extends \Illuminate\Database\Eloquent\Model
         $balance = 0;
         $accounts = $this->accounts;
         foreach($accounts as $account) {
+            if($account->is_sink) { continue; }
             $balance += $account->getExpense($year, $month, $date);
         }
         return $balance;

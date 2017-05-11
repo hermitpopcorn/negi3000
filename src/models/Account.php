@@ -160,7 +160,17 @@ class Account extends \Illuminate\Database\Eloquent\Model
             return false;
         }
 
-        return $this->queryTransactionsByDate($year, $month, $date)->where('type', 'i')->get();
+        return $this->queryTransactionsByDate($year, $month, $date)
+            ->where('type', 'i')
+            ->orWhere(function($q) {
+                return $q
+                    ->where('type', 'x')
+                    ->whereHas('account', function($query) {
+                    $query->where('is_sink', 1);
+                });
+            })
+            ->get()
+        ;
     }
 
     public function getExpenseTransactions($year = false, $month = false, $date = false)
@@ -169,7 +179,17 @@ class Account extends \Illuminate\Database\Eloquent\Model
             return false;
         }
 
-        return $this->queryTransactionsByDate($year, $month, $date)->where('type', 'e')->get();
+        return $this->queryTransactionsByDate($year, $month, $date)
+            ->where('type', 'e')
+            ->orWhere(function($q) {
+                return $q
+                    ->where('type', 'x')
+                    ->whereHas('target', function($query) {
+                    $query->where('is_sink', 1);
+                });
+            })
+            ->get()
+        ;
     }
 
     public function getIncome($year = false, $month = false, $date = false)
