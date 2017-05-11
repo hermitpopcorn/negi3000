@@ -40,7 +40,7 @@
                                     <input type="text" ref="nameInput" class="form-control" v-model="form.name"></input>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" v-if="!form.isSink">
                                 <div class="col-sm-12">
                                     <label class="form-control-label">Initial Balance</label>
                                     <vue-numeric ref="initialBalanceInput" class="form-control text-right" currency="" separator=" " v-model="form.initialBalance" :minus="false" :precision="2" name="initialBalance" :disabled="form.isSink"></vue-numeric>
@@ -51,8 +51,10 @@
                                     <label class="form-control-label">Mark as money sink</label>
                                     <p class="text-right m-0"><input name="isSink" value="true" type="checkbox" v-model="form.isSink"></p>
                                     <p class="form-text">
-                                        Accounts marked as money sink will not have its current balance
-                                        shown on the overview page, and also not counted towards the total balance.
+                                        Accounts marked as money sink will not have its current balance shown on the overview page.
+                                        The account's balance, expense, and income will not be counted towards the statistic total,
+                                        also, transfers to the account will be counted as an expense, and transfers from the account
+                                        will be counted as an income.
                                     </p>
                                 </div>
                             </div>
@@ -186,7 +188,7 @@ export default {
             var data = {
                 csrfToken: window.user.csrfToken,
                 name: self.form.name,
-                initialBalance: self.form.initialBalance,
+                initialBalance: self.form.isSink ? 0 : self.form.initialBalance,
                 isSink: self.form.isSink
             }
 
