@@ -213,13 +213,18 @@ export default {
 
             if(self.transactions.length > 0) {
                 for(let i = 0; i < self.transactions.length; i++) {
-                    if(self.transactions[i].isSink) {
-                        continue;
-                    }
-                    if(self.transactions[i].type == 'i') {
-                        balance += parseFloat(self.transactions[i].amount)
-                    } else if(self.transactions[i].type == 'e' || self.transactions[i].type == 'x') {
-                        balance -= parseFloat(self.transactions[i].amount)
+                    if(self.transactions[i].accountIsSink == false) {
+                        if(self.transactions[i].type == 'i') {
+                            balance += parseFloat(self.transactions[i].amount)
+                        } else if(self.transactions[i].type == 'e') {
+                            balance -= parseFloat(self.transactions[i].amount)
+                        } else if(self.transactions[i].type == 'x' && self.transactions[i].targetIsSink) {
+                            balance -= parseFloat(self.transactions[i].amount)
+                        }
+                    } else {
+                        if(self.transactions[i].type == 'x' && self.transactions[i].targetIsSink == false) {
+                            balance += parseFloat(self.transactions[i].amount)
+                        }
                     }
                 }
             }

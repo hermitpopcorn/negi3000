@@ -7,7 +7,7 @@
                         <router-link :to="'/transaction/add'" class="btn btn-primary btn-block" exact><i class="icon-note"></i> Add</router-link>
                     </div>
                 </div>
-                
+
                 <div class="card">
                     <div class="card-block">
                         <template v-for="(transaction, index) in transactions">

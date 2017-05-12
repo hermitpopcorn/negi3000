@@ -247,12 +247,13 @@ class App extends \App\Controller\BaseController
             unset($transaction->user_id);
             $accountUID = $transaction->account->uid;
             $transaction->accountName = $transaction->account->name;
-            $transaction->isSink = (boolean) $transaction->account->is_sink;
+            $transaction->accountIsSink = (boolean) $transaction->account->is_sink;
             unset($transaction->account);
             $transaction->account = $accountUID;
             if($transaction->target) {
                 $targetUID = $transaction->target->uid;
                 $transaction->targetName = $transaction->target->name;
+                $transaction->targetIsSink = (boolean) $transaction->target->is_sink;
                 unset($transaction->target);
                 $transaction->target = $targetUID;
             }
@@ -295,12 +296,13 @@ class App extends \App\Controller\BaseController
             unset($transaction->user_id);
             $accountUID = $transaction->account->uid;
             $transaction->accountName = $transaction->account->name;
-            $transaction->isSink = (boolean) $transaction->account->is_sink;
+            $transaction->accountIsSink = (boolean) $transaction->account->is_sink;
             unset($transaction->account);
             $transaction->account = $accountUID;
             if($transaction->target) {
                 $targetUID = $transaction->target->uid;
                 $transaction->targetName = $transaction->target->name;
+                $transaction->targetIsSink = (boolean) $transaction->target->is_sink;
                 unset($transaction->target);
                 $transaction->target = $targetUID;
             }
