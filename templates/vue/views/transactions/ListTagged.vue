@@ -36,6 +36,24 @@
                                 </div>
                             </div>
                         </template>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="transaction i">
+                                    <div class="transaction-body white">
+                                        <span>Tagged income total</span>
+                                        <h1 v-html="$options.filters.currency(totalIncome)"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="transaction e">
+                                    <div class="transaction-body white">
+                                        <span>Tagged expense total</span>
+                                        <h1 v-html="$options.filters.currency(totalExpense)"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div><!--/.col-->
@@ -49,7 +67,9 @@ export default {
     props: ['tag'],
     data: function() {
         return {
-            transactions: []
+            transactions: [],
+            totalIncome: 0,
+            totalExpense: 0
         }
     },
     created: function() {
@@ -63,9 +83,37 @@ export default {
             self.transactions = []
             self.$http.get('api/transactions/tagged/'+tag).then(response => {
                 self.transactions = response.body.transactions
+                self.calculateIncomeAndExpenseTotals()
             }, response => {
                 self.transactions = []
             })
+        },
+
+        calculateIncomeAndExpenseTotals: function() {
+            var self = this
+            var income = 0;
+            var expense = 0;
+
+            if(self.transactions.length > 0) {
+                for(let i = 0; i < self.transactions.length; i++) {
+                    if(self.transactions[i].accountIsSink == false) {
+                        if(self.transactions[i].type == 'i') {
+                            income += parseFloat(self.transactions[i].amount)
+                        } else if(self.transactions[i].type == 'e') {
+                            expense += parseFloat(self.transactions[i].amount)
+                        } else if(self.transactions[i].type == 'x' && self.transactions[i].targetIsSink) {
+                            expense += parseFloat(self.transactions[i].amount)
+                        }
+                    } else {
+                        if(self.transactions[i].type == 'x' && self.transactions[i].targetIsSink == false) {
+                            income += parseFloat(self.transactions[i].amount)
+                        }
+                    }
+                }
+            }
+
+            self.totalIncome = income
+            self.totalExpense = expense
         },
 
         deleteTransaction: function(transaction) {

@@ -138,7 +138,7 @@ span.decimal {
     background-color: inherit;
     overflow: hidden;
 }
-.transaction-body.white {
+.transaction > .transaction-body.white {
     background-color: #fff;
 }
 
