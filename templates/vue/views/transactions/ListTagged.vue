@@ -2,6 +2,12 @@
     <div class="animated fadeIn">
         <div class="row">
             <div class="col-lg-8 push-lg-2 col-md-12">
+                <div class="row">
+                    <div class="col-2 push-10">
+                        <router-link :to="'/transaction/add'" class="btn btn-primary btn-block" exact><i class="icon-note"></i> Add</router-link>
+                    </div>
+                </div>
+                
                 <div class="card">
                     <div class="card-block">
                         <template v-for="(transaction, index) in transactions">

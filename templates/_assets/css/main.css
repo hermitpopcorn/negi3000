@@ -61,6 +61,13 @@ span.decimal {
     font-size: 0.7em;
 }
 
+.progress.income-v-expense {
+    background-color: #f86c6b !important;
+}
+.progress.income-v-expense .progress-bar {
+    background-color: #4dbd74 !important;
+}
+
 .transaction {
     padding-left: 0.5em;
     margin-bottom: 0.25em;
