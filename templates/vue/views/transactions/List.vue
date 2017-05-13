@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-8 push-lg-2 col-md-12">
                 <div class="row">
-                    <div class="col-2 push-10">
+                    <div class="col-6 col-md-3 push-6 push-md-9">
                         <router-link :to="'/transaction/add'" class="btn btn-primary btn-block" exact><i class="icon-note"></i> Add</router-link>
                     </div>
                 </div>
