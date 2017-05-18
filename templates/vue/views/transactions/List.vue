@@ -2,6 +2,12 @@
     <div class="animated fadeIn">
         <div class="row">
             <div class="col-lg-8 push-lg-2 col-md-12">
+                <div class="row">
+                    <div class="col-6 col-md-3 push-6 push-md-9">
+                        <router-link :to="'/transaction/add'" class="btn btn-primary btn-block" exact><i class="icon-note"></i> Add</router-link>
+                    </div>
+                </div>
+
                 <div class="input-block semi-transparent-white-cover" v-show="block"></div>
                 <div class="card">
                     <div class="card-block row p-0">
@@ -207,13 +213,18 @@ export default {
 
             if(self.transactions.length > 0) {
                 for(let i = 0; i < self.transactions.length; i++) {
-                    if(self.transactions[i].isSink) {
-                        continue;
-                    }
-                    if(self.transactions[i].type == 'i') {
-                        balance += parseFloat(self.transactions[i].amount)
-                    } else if(self.transactions[i].type == 'e' || self.transactions[i].type == 'x') {
-                        balance -= parseFloat(self.transactions[i].amount)
+                    if(self.transactions[i].accountIsSink == false) {
+                        if(self.transactions[i].type == 'i') {
+                            balance += parseFloat(self.transactions[i].amount)
+                        } else if(self.transactions[i].type == 'e') {
+                            balance -= parseFloat(self.transactions[i].amount)
+                        } else if(self.transactions[i].type == 'x' && self.transactions[i].targetIsSink) {
+                            balance -= parseFloat(self.transactions[i].amount)
+                        }
+                    } else {
+                        if(self.transactions[i].type == 'x' && self.transactions[i].targetIsSink == false) {
+                            balance += parseFloat(self.transactions[i].amount)
+                        }
                     }
                 }
             }

@@ -1,5 +1,9 @@
 export default {
     currency: function(value, currency, decimals) {
+        if(isNaN(value)) {
+            return value;
+        }
+
         var digitsRE = /(\d{3})(?=\d)/g
         value = parseFloat(value)
         if (!isFinite(value) || (!value && value !== 0)) return ''

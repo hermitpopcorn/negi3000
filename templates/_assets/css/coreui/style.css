@@ -8633,8 +8633,7 @@ header.navbar {
     .horizontal-bars li .bars {
       position: absolute;
       top: 15px;
-      width: 100%;
-      padding-left: 100px; }
+      width: 100%; }
       .horizontal-bars li .bars .progress:first-child {
         margin-bottom: 2px; }
     .horizontal-bars li.legend {
@@ -8703,7 +8702,7 @@ ul.icons-list {
     ul.icons-list li .value {
       position: absolute;
       top: 2px;
-      right: 45px;
+      right: 0;
       text-align: right; }
       ul.icons-list li .value strong {
         display: block;

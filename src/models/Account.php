@@ -161,13 +161,17 @@ class Account extends \Illuminate\Database\Eloquent\Model
         }
 
         return $this->queryTransactionsByDate($year, $month, $date)
-            ->where('type', 'i')
-            ->orWhere(function($q) {
+            ->where(function($q) {
                 return $q
-                    ->where('type', 'x')
-                    ->whereHas('account', function($query) {
-                    $query->where('is_sink', 1);
-                });
+                    ->where('type', 'i')
+                    ->orWhere(function($q) {
+                        return $q
+                            ->where('type', 'x')
+                            ->whereHas('account', function($query) {
+                            $query->where('is_sink', 1);
+                        });
+                    })
+                ;
             })
             ->get()
         ;
@@ -180,13 +184,17 @@ class Account extends \Illuminate\Database\Eloquent\Model
         }
 
         return $this->queryTransactionsByDate($year, $month, $date)
-            ->where('type', 'e')
-            ->orWhere(function($q) {
+            ->where(function($q) {
                 return $q
-                    ->where('type', 'x')
-                    ->whereHas('target', function($query) {
-                    $query->where('is_sink', 1);
-                });
+                    ->where('type', 'e')
+                    ->orWhere(function($q) {
+                        return $q
+                            ->where('type', 'x')
+                            ->whereHas('target', function($query) {
+                            $query->where('is_sink', 1);
+                        });
+                    })
+                ;
             })
             ->get()
         ;
