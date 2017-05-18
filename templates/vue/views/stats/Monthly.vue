@@ -126,15 +126,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <router-link :to="'/transaction/list'" class="btn btn-lg btn-block btn-primary" exact><h3><i class="icon-shuffle"></i> Transactions</h3></router-link>
-            </div>
-            <div class="col-md-6">
-                <router-link :to="'/account/list'" class="btn btn-lg btn-block btn-primary" exact><h3><i class="icon-notebook"></i> Accounts</h3></router-link>
-            </div>
-        </div>
     </div>
 </template>
 
