@@ -68,6 +68,19 @@ span.decimal {
     background-color: #4dbd74 !important;
 }
 
+.progress.stat {
+    background-color: #e0e0e0 !important;
+}
+.progress.stat .progress-bar {
+    background-color: #7186de !important;
+}
+.progress.stat.income .progress-bar {
+    background-color: #4dbd74 !important;
+}
+.progress.stat.expense .progress-bar {
+    background-color: #f86c6b !important;
+}
+
 .transaction {
     padding-left: 0.5em;
     margin-bottom: 0.25em;

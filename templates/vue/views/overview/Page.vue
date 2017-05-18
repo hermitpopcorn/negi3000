@@ -174,14 +174,6 @@ export default {
             }, response => {
                 self.totalExpense = "???"
             })
-        },
-
-        cardColor: function(balance) {
-            if(balance >= 0) {
-                return "card-success"
-            } else {
-                return "card-danger"
-            }
         }
     },
     computed: {

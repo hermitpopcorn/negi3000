@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import Full from '../containers/Full.vue'
 
 // Views
-import Overview from '../views/Overview.vue'
+import Overview from '../views/overview/Page.vue'
 
 // Views - Transactions
 import TransactionsList from '../views/transactions/List.vue'
@@ -13,6 +13,9 @@ import TransactionsForm from '../views/transactions/Form.vue'
 
 // Views - Accounts
 import AccountsList from '../views/accounts/List.vue'
+
+// Views - Statistics
+import StatisticsMonthly from '../views/stats/Monthly.vue'
 
 // View - Profile
 import EditProfile from '../views/profile/Edit.vue'
@@ -77,6 +80,22 @@ export default new Router({
                             meta: { label: 'Edit' },
                             component: TransactionsForm,
                             props: true
+                        }
+                    ]
+                },
+                {
+                    path: 'stats',
+                    redirect: '/stats/monthly',
+                    name: 'Statistics',
+                    component: {
+                        render (c) { return c('router-view') }
+                    },
+                    children: [
+                        {
+                            path: 'monthly',
+                            name: 'StatisticsMonthly',
+                            meta: { label: 'Monthly' },
+                            component: StatisticsMonthly
                         }
                     ]
                 },

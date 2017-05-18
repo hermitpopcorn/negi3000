@@ -20,6 +20,9 @@
                     <router-link :to="'/account/list'" class="nav-link" exact><i class="icon-notebook"></i> Accounts</router-link>
                 </li>
                 <li class="nav-item">
+                    <router-link :to="'/stats/monthly'" class="nav-link" exact><i class="icon-graph"></i> Statistics</router-link>
+                </li>
+                <li class="nav-item">
                     <router-link :to="'/profile'" class="nav-link" exact><i class="icon-user"></i> Profile</router-link>
                 </li>
             </ul>
