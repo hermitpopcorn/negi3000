@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>negi3000</title>
     <link rel="icon" type="image/png" href="favicon.ico">
+    <link href="assets/css/preloader.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,400i,700,700i" rel="stylesheet">
     <link href="assets/css/coreui/style.css" rel="stylesheet" type="text/css">
     <link href="components/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
@@ -14,6 +15,10 @@
     <div id="app">
     </div>
 
+    <?= $this->fetch("_components/preloader.phtml"); ?>
+
     <script src="build.js"></script>
+    <script src="components/jquery/dist/jquery.min.js"></script>
+    <script src="assets/js/preloader.js"></script>
 </body>
 </html>
