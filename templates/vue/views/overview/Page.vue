@@ -1,103 +1,95 @@
 <template>
-    <div class="animated fadeIn">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-block">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="callout callout-info">
-                                            <small class="text-muted">Total Balance</small>
-                                            <br>
-                                            <strong class="h4" v-html="$options.filters.currency(totalBalance)"></strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="callout callout-danger">
-                                            <small class="text-muted">Total expense this month</small>
-                                            <br>
-                                            <strong class="h4" v-html="$options.filters.currency(totalExpense)"></strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="callout callout-success">
-                                            <small class="text-muted">Total income this month</small>
-                                            <br>
-                                            <strong class="h4" v-html="$options.filters.currency(totalIncome)"></strong>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <hr class="mt-0">
-                                <ul style="list-style: none; padding: 0; margin: 0; margin-bottom: 1em">
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <span style="color: #318a4f">income</span>
-                                            </div>
-                                            <div class="col-4 text-center">
-                                                <span style="color: #7d7b9a">balance this month</span>
-                                            </div>
-                                            <div class="col-4 text-right">
-                                                <span style="color: #a83838">expense</span>
-                                            </div>
-                                        </div>
-                                        <div class="bars">
-                                            <div class="progress progress-lg income-v-expense">
-                                                <div class="progress-bar" role="progressbar" :style="{ width: incomePercentage + '%' }" :aria-valuenow="incomePercentage" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <span style="color: #318a4f">{{ incomePercentage }}%</span>
-                                            </div>
-                                            <div class="col-4 text-center">
-                                                <span style="color: #7d7b9a" v-html="$options.filters.currency(totalIncome - totalExpense)"></span>
-                                            </div>
-                                            <div class="col-4 text-right">
-                                                <span style="color: #a83838">{{ expensePercentage }}%</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-
-                                <hr class="mt-0">
-                                <ul class="icons-list">
-                                    <template v-for="account in accounts">
-                                        <li>
-                                            <i class="icon-notebook bg-primary" v-if="account.balance !== null"></i>
-                                            <i class="icon-wallet bg-danger" v-if="account.balance === null"></i>
-                                            <div class="desc">
-                                                <div class="small text-muted" v-if="account.balance !== null">regular account</div>
-                                                <div class="small text-muted" v-if="account.balance === null">money sink</div>
-                                                <div class="title" style="padding:0">{{ account.name }}</div>
-                                            </div>
-                                            <div class="value" v-if="account.balance !== null">
-                                                <div class="small text-muted">remaining balance</div>
-                                                <strong v-html="$options.filters.currency(account.balance)"></strong>
-                                            </div>
-                                        </li>
-                                    </template>
-                                </ul>
-                            </div>
+    <section class="content">
+        <div class="box">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="stat callout callout-info">
+                            <small>Total Balance</small>
+                            <br>
+                            <strong class="h4" v-html="$options.filters.currency(totalBalance)"></strong>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat callout callout-danger">
+                            <small>Total expense this month</small>
+                            <br>
+                            <strong class="h4" v-html="$options.filters.currency(totalExpense)"></strong>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat callout callout-success">
+                            <small>Total income this month</small>
+                            <br>
+                            <strong class="h4" v-html="$options.filters.currency(totalIncome)"></strong>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <router-link :to="'/transaction/list'" class="btn btn-lg btn-block btn-primary" exact><h3><i class="icon-shuffle"></i> Transactions</h3></router-link>
+            <hr class="no-margin-top">
+
+            <div class="box-body">
+                <ul style="list-style: none; padding: 0; margin: 0; margin-bottom: 1em">
+                    <li>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <span style="color: #318a4f">income</span>
+                            </div>
+                            <div class="col-xs-4 text-center">
+                                <span style="color: #7d7b9a">balance this month</span>
+                            </div>
+                            <div class="col-xs-4 text-right">
+                                <span style="color: #a83838">expense</span>
+                            </div>
+                        </div>
+                        <div class="bars">
+                            <div class="progress progress-lg income-v-expense">
+                                <div class="progress-bar" role="progressbar" :style="{ width: incomePercentage + '%' }" :aria-valuenow="incomePercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <span style="color: #318a4f">{{ incomePercentage }}%</span>
+                            </div>
+                            <div class="col-xs-4 text-center">
+                                <span style="color: #7d7b9a" v-html="$options.filters.currency(totalIncome - totalExpense)"></span>
+                            </div>
+                            <div class="col-xs-4 text-right">
+                                <span style="color: #a83838">{{ expensePercentage }}%</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
-            <div class="col-md-6">
-                <router-link :to="'/account/list'" class="btn btn-lg btn-block btn-primary" exact><h3><i class="icon-notebook"></i> Accounts</h3></router-link>
-            </div>
+
+            <hr class="no-margin">
+
+            <template v-for="account in accounts">
+                <div class="info-box" :class="{ 'bg-green': !account.isSink, 'bg-yellow': account.isSink }">
+                    <span class="info-box-icon">
+                        <i class="fa fa-book" v-if="account.balance !== null"></i>
+                        <i class="fa fa-credit-card" v-if="account.balance === null"></i>
+                    </span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text" v-if="account.balance !== null">regular account</span>
+                        <span class="info-box-text" v-if="account.balance === null">money sink</span>
+                        <span class="info-box-number">{{ account.name }}</span>
+
+                        <p v-if="account.balance !== null">Remaining balance: <strong v-html="$options.filters.currency(account.balance)"></strong></p>
+                    </div>
+                </div>
+            </template>
         </div>
-    </div>
+    </section>
 </template>
+
+<style>
+.info-box {
+    margin-bottom: 0;
+}
+</style>
 
 <script>
 export default {
