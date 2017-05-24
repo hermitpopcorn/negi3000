@@ -74,7 +74,7 @@
                                 <h4>Expense by tags</h4>
                                 <ul style="list-style: none; padding: 0; margin: 0; margin-bottom: 1em">
                                     <template v-for="(tag, tagName) in sortTags('e', tags)">
-                                        <li v-if="tag.totalExpense != 0">
+                                        <li v-if="tag.totalExpense != 0" v-on:click="toggleTransactionsVisibility('e', tagName)" style="cursor:pointer">
                                             <div class="row">
                                                 <div class="col-12">
                                                     <h6 style="color: #7d7b9a; margin: 0">#{{ tagName }}</h6>
@@ -92,13 +92,39 @@
                                                 </div>
                                             </div>
                                         </li>
+                                        <transition name="slide-fade">
+                                            <li v-show="expenseTransactionsVisibility.includes(tagName)">
+                                                <template v-for="(transaction, index) in tag.transactions">
+                                                    <div class="transaction transaction-mini transaction-padded-left" :class="transaction.type">
+                                                        <div class="transaction-head">
+                                                            <span class="account" v-if="transaction.type !== 'x'">{{ transaction.accountName }}</span>
+                                                            <span class="account" v-if="transaction.type === 'x'">
+                                                                <template v-if="transaction.target">
+                                                                    {{ transaction.accountName }} > {{ transaction.targetName }}
+                                                                </template>
+                                                                <template v-else>
+                                                                    {{ transaction.accountName }} > ???
+                                                                </template>
+                                                            </span>
+                                                            <span>
+                                                                {{ transaction.date.split(' ')[0] | date }} <span v-if="transaction.date.split(' ')[1] !== '00:00:00'">at {{ $options.filters.date(transaction.date).split(' ').slice(-2).join(' ') }}</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="transaction-body">
+                                                            <h1 v-html="$options.filters.currency(transaction.amount)"/>
+                                                            <p v-if="transaction.note">{{ transaction.note }}</p>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </li>
+                                        </transition>
                                     </template>
                                 </ul>
 
                                 <h4>Income by tags</h4>
                                 <ul style="list-style: none; padding: 0; margin: 0; margin-bottom: 1em">
                                     <template v-for="(tag, tagName) in sortTags('i', tags)">
-                                        <li v-if="tag.totalIncome != 0">
+                                        <li v-if="tag.totalIncome != 0" v-on:click="toggleTransactionsVisibility('i', tagName)" style="cursor:pointer">
                                             <div class="row">
                                                 <div class="col-12">
                                                     <h6 style="color: #7d7b9a; margin: 0">#{{ tagName }}</h6>
@@ -116,10 +142,34 @@
                                                 </div>
                                             </div>
                                         </li>
+                                        <transition name="slide-fade">
+                                            <li v-show="incomeTransactionsVisibility.includes(tagName)">
+                                                <template v-for="(transaction, index) in tag.transactions">
+                                                    <div class="transaction transaction-mini transaction-padded-left" :class="transaction.type">
+                                                        <div class="transaction-head">
+                                                            <span class="account" v-if="transaction.type !== 'x'">{{ transaction.accountName }}</span>
+                                                            <span class="account" v-if="transaction.type === 'x'">
+                                                                <template v-if="transaction.target">
+                                                                    {{ transaction.accountName }} > {{ transaction.targetName }}
+                                                                </template>
+                                                                <template v-else>
+                                                                    {{ transaction.accountName }} > ???
+                                                                </template>
+                                                            </span>
+                                                            <span>
+                                                                {{ transaction.date.split(' ')[0] | date }} <span v-if="transaction.date.split(' ')[1] !== '00:00:00'">at {{ $options.filters.date(transaction.date).split(' ').slice(-2).join(' ') }}</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="transaction-body">
+                                                            <h1 v-html="$options.filters.currency(transaction.amount)"/>
+                                                            <p v-if="transaction.note">{{ transaction.note }}</p>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </li>
+                                        </transition>
                                     </template>
                                 </ul>
-
-                                <hr class="mt-0">
                             </div>
                         </div>
                     </div>
@@ -128,6 +178,19 @@
         </div>
     </div>
 </template>
+
+<style>
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .15s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+</style>
 
 <script>
 export default {
@@ -139,6 +202,8 @@ export default {
             totalExpense: "Loading...",
             tags: {},
             transactions: [],
+            expenseTransactionsVisibility: [],
+            incomeTransactionsVisibility: [],
             cursor: { }
         }
     },
@@ -227,20 +292,18 @@ export default {
             for(var i in self.tags) {
                 self.tags[i].totalIncome = 0
                 self.tags[i].totalExpense = 0
+                self.tags[i].showExpenseTransactions = false
+                self.tags[i].showIncomeTransactions = false
 
                 for(var x of self.tags[i].transactions) {
-                    if(x.accountIsSink == false) {
-                        if(x.type == 'i') {
-                            self.tags[i].totalIncome += parseFloat(x.amount)
-                        } else if(x.type == 'e') {
-                            self.tags[i].totalExpense += parseFloat(x.amount)
-                        } else if(x.type == 'x' && x.targetIsSink) {
-                            self.tags[i].totalExpense += parseFloat(x.amount)
-                        }
-                    } else {
-                        if(x.type == 'x' && x.targetIsSink == false) {
-                            self.tags[i].totalIncome += parseFloat(x.amount)
-                        }
+                    if(x.type == 'i') {
+                        self.tags[i].totalIncome += parseFloat(x.amount)
+                    } else if(x.type == 'e') {
+                        self.tags[i].totalExpense += parseFloat(x.amount)
+                    } else if(x.type == 'x' && x.targetIsSink) {
+                        self.tags[i].totalExpense += parseFloat(x.amount)
+                    } else if(x.type == 'x' && x.accountIsSink && x.targetIsSink == false) {
+                        self.tags[i].totalIncome += parseFloat(x.amount)
                     }
                 }
             }
@@ -316,6 +379,20 @@ export default {
 
             let percentage = ((value / (total)) * 100)
             return Math.round(percentage * 100) / 100
+        },
+
+        toggleTransactionsVisibility: function(which, tagName) {
+            var transactionsVisibility;
+            if(which == 'e') {
+                transactionsVisibility = this.expenseTransactionsVisibility;
+            } else if(which == 'i') {
+                transactionsVisibility = this.incomeTransactionsVisibility;
+            }
+            if(!transactionsVisibility.includes(tagName)) {
+                transactionsVisibility.push(tagName)
+            } else {
+                transactionsVisibility.splice(transactionsVisibility.indexOf(tagName), 1)
+            }
         }
     },
     computed: {
