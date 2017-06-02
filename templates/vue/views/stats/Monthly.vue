@@ -82,13 +82,13 @@
                                             </div>
                                             <div class="bars">
                                                 <div class="progress progress-sm stat expense">
-                                                    <div class="progress-bar" role="progressbar" :style="{ width: statPercentage('i', tag.totalExpense) + '%' }" :aria-valuenow="statPercentage('i', tag.totalExpense)" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar" role="progressbar" :style="{ width: statPercentage('e', tag.totalExpense) + '%' }" :aria-valuenow="statPercentage('e', tag.totalExpense)" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-12">
                                                     <span style="color: #a83838" v-html="$options.filters.currency(tag.totalExpense)"></span>
-                                                    (<span v-text="statPercentage('i', tag.totalExpense)"></span>%)
+                                                    (<span v-text="statPercentage('e', tag.totalExpense)"></span>%)
                                                 </div>
                                             </div>
                                         </li>
