@@ -54,18 +54,7 @@ export default {
         sidebarToggle (e) {
             e.preventDefault()
             document.body.classList.toggle('sidebar-collapse')
-        },
-        sidebarMinimize (e) {
-            e.preventDefault()
-            document.body.classList.toggle('sidebar-compact')
-        },
-        mobileSidebarToggle (e) {
-            e.preventDefault()
-            document.body.classList.toggle('sidebar-mobile-show')
-        },
-        asideToggle (e) {
-            e.preventDefault()
-            document.body.classList.toggle('aside-menu-hidden')
+            document.body.classList.toggle('sidebar-open')
         }
     }
 }
