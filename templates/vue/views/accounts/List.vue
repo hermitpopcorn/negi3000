@@ -52,7 +52,7 @@
                     <div class="box-header with-border" v-if="form.title">
                         <h3 class="box-title" v-html="form.title" />
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            <button type="button" class="btn btn-box-tool" @click="hideForm()"><i class="fa fa-times"></i></button>
                         </div>
                     </div>
                     <form>
@@ -120,6 +120,10 @@ export default {
         this.getAccounts()
     },
     methods: {
+        hideForm: function() {
+            this.$set(this.form, 'show', false)
+        },
+        
         getAccounts: function() {
             var self = this
             self.accounts = []
