@@ -1,79 +1,63 @@
 <template>
-    <div class="animated fadeIn">
+    <section class="content">
         <div class="row">
-            <div class="col-lg-8 push-lg-2 col-md-12">
-                <div class="card" :class="accentType">
-                    <div class="card-block">
-                        <form>
+            <div class="col-lg-8 col-lg-push-2">
+                <div class="box" :class="accentType">
+                    <form>
+                        <div class="box-body">
                             <div class="input-block semi-transparent-white-cover" v-show="form.block"></div>
                             <div class="form-group">
-                                <div class="col-sm-12">
-                                    <label class="form-control-label">Type</label>
-                                    <div class="switch-field">
-                                        <input id="type-i" type="radio" name="switch_3" value="i" v-model="form.type"/>
-                                        <label class="i" for="type-i">Income</label>
-                                        <input id="type-e" type="radio" name="switch_3" value="e" v-model="form.type"/>
-                                        <label class="e" for="type-e">Expense</em></label>
-                                        <input id="type-x" type="radio" name="switch_3" value="x" v-model="form.type"/>
-                                        <label class="x" for="type-x">Transfer</label>
-                                    </div>
+                                <label class="form-control-label">Type</label>
+                                <div class="switch-field">
+                                    <input id="type-i" type="radio" name="switch_3" value="i" v-model="form.type"/>
+                                    <label class="i" for="type-i">Income</label>
+                                    <input id="type-e" type="radio" name="switch_3" value="e" v-model="form.type"/>
+                                    <label class="e" for="type-e">Expense</em></label>
+                                    <input id="type-x" type="radio" name="switch_3" value="x" v-model="form.type"/>
+                                    <label class="x" for="type-x">Transfer</label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-12">
-                                    <label class="form-control-label">Account</label>
-                                    <select class="form-control" v-model="form.account">
-                                        <template v-for="i in accounts">
-                                            <option :value="i.uid">{{ i.name }}</option>
-                                        </template>
-                                    </select>
-                                </div>
+                                <label class="form-control-label">Account</label>
+                                <select class="form-control" v-model="form.account">
+                                    <template v-for="i in accounts">
+                                        <option :value="i.uid">{{ i.name }}</option>
+                                    </template>
+                                </select>
                             </div>
                             <div class="form-group" v-if="form.type === 'x'">
-                                <div class="col-sm-12">
-                                    <label class="form-control-label">Transfer to</label>
-                                    <select class="form-control" v-model="form.target">
-                                        <template v-for="i in accounts">
-                                            <option :value="i.uid">{{ i.name }}</option>
-                                        </template>
-                                    </select>
-                                </div>
+                                <label class="form-control-label">Transfer to</label>
+                                <select class="form-control" v-model="form.target">
+                                    <template v-for="i in accounts">
+                                        <option :value="i.uid">{{ i.name }}</option>
+                                    </template>
+                                </select>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-12">
-                                    <label class="form-control-label">Amount</label>
-                                    <vue-numeric class="form-control text-right" currency="" separator=" " v-model="form.amount" :minus="false" :precision="2" name="amount"></vue-numeric>
-                                </div>
+                                <label class="form-control-label">Amount</label>
+                                <vue-numeric class="form-control text-right" currency="" separator=" " v-model="form.amount" :minus="false" :precision="2" name="amount"></vue-numeric>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-12">
-                                    <label class="form-control-label">Note</label>
-                                    <textarea class="form-control" v-model="form.note"></textarea>
-                                </div>
+                                <label class="form-control-label">Note</label>
+                                <textarea class="form-control" v-model="form.note"></textarea>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-12">
-                                    <label class="form-control-label">Date</label>
-                                    <input type="text" class="form-control" v-model="form.date"></input>
-                                </div>
+                                <label class="form-control-label">Date</label>
+                                <input type="text" class="form-control" v-model="form.date"></input>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-12">
-                                    <label class="form-control-label">Tags</label>
-                                    <input-tag class="form-control" :tags="form.tags" />
-                                </div>
+                                <label class="form-control-label">Tags</label>
+                                <input-tag class="form-control" :tags="form.tags" />
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-12">
-                                    <button class="btn btn-primary btn-block" @click="submit">Save</button>
-                                </div>
+                                <button class="btn btn-primary btn-block" @click="submit">Save</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <style lang="css">
@@ -206,11 +190,11 @@ export default {
     computed: {
         accentType: function() {
             if(this.form.type == 'i') {
-                return 'card-accent-success'
+                return 'box-success'
             } else if(this.form.type == 'e') {
-                return 'card-accent-danger'
+                return 'box-danger'
             } else if(this.form.type == 'x') {
-                return 'card-accent-primary'
+                return 'box-primary'
             }
         }
     },

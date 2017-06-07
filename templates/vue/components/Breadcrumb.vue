@@ -1,8 +1,9 @@
 <template>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item" v-for="(item, index) in list"><span class="active" v-if="isLast(index)">{{ showName(item) }}</span>
-            <router-link :to="getPath(item)" v-else>{{ showName(item) }}</router-link>
-        </li>
+        <template v-for="(item, index) in list">
+            <li class="active" v-if="isLast(index)">{{ showName(item) }}</li>
+            <li v-else><router-link :to="getPath(item)">{{ showName(item) }}</router-link></li>
+        </template>
     </ol>
 </template>
 

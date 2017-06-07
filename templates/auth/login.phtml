@@ -7,58 +7,39 @@
     <title>negi3000</title>
     <base href="<?= $baseUrl ?>" />
     <link href="assets/css/preloader.css" rel="stylesheet">
+    <link href="components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="components/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
-    <link href="components/tether/dist/css/tether.min.css" rel="stylesheet">
-    <link href="assets/css/coreui/style.css" rel="stylesheet">
+    <link href="components/AdminLTE/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css">
     <link href="assets/css/main.css" rel="stylesheet">
-
-    <style>
-    .login-info { width: 100%; }
-    @media (min-width: 768px) {
-        .login-info { width: 30%; }
-    }
-    </style>
 </head>
 
-<body class="app flex-row align-items-center">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card-group mb-0" id="login-box">
-                    <div class="card p-4" style="margin-bottom:0">
-                        <div class="card-block">
-                            <form id="login-form">
-                                <div class="input-block semi-transparent-white-cover" style="display: none"></div>
-                                <h1>Login</h1>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-addon"><i class="icon-user"></i>
-                                    </span>
-                                    <input type="text" class="form-control" placeholder="Username" name="username">
-                                </div>
-                                <div class="input-group mb-4">
-                                    <span class="input-group-addon"><i class="icon-lock"></i>
-                                    </span>
-                                    <input type="password" class="form-control" placeholder="Password" name="password">
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary px-4">Login</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="message-card card card-inverse card-info py-5 login-info" style="margin-bottom: 0; display: none">
-                        <div class="card-block text-center">
-                            <div>
-                                <h2 id="message-title"></h2>
-                                <p id="message-content"></p>
-                            </div>
-                        </div>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <b>NEGI</b>3000</a>
+        </div>
+
+        <div class="login-box-body">
+            <form action="auth/login" method="POST" id="login-form">
+                <div class="form-group has-feedback">
+                    <input name="username" type="text" class="form-control" placeholder="Username">
+                    <span class="fa fa-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input name="password" type="password" class="form-control" placeholder="Password">
+                    <span class="fa fa-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-xs-push-8">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
                     </div>
                 </div>
-            </div>
+            </form>
+        </div>
+
+        <div class="callout" style="display:none" id="message-callout">
+            <h4 id="message-title"></h4>
+            <p id="message-content"></p>
         </div>
     </div>
 
@@ -67,6 +48,5 @@
     <script src="components/jquery/dist/jquery.min.js"></script>
     <script src="assets/js/login.js"></script>
     <script src="assets/js/preloader.js"></script>
-
 </body>
 </html>

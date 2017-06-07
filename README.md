@@ -12,5 +12,5 @@ gulp
 ```
 
 ## Components
-Uses these third party components:
-[kevinongko/vue-numeric](https://github.com/kevinongko/vue-numeric/), [matiastucci/vue-input-tag](https://github.com/matiastucci/vue-input-tag), and a lot of [CoreUI](http://coreui.io/) vue components.
+Uses these third party vue components:
+[kevinongko/vue-numeric](https://github.com/kevinongko/vue-numeric/), [matiastucci/vue-input-tag](https://github.com/matiastucci/vue-input-tag).

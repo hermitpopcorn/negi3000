@@ -1,182 +1,163 @@
 <template>
-    <div class="animated fadeIn">
-        <div class="row">
-            <div class="col-12">
-                <div class="input-block semi-transparent-white-cover" v-show="block"></div>
-                <div class="card">
-                    <div class="card-block row p-0">
-                        <div class="col-2 text-center pt-2 pb-2" v-on:click="previousMonth">
-                            <i class="icon-arrow-left"></i>
-                        </div>
-                        <div class="col-8 text-center pt-2 pb-2">{{ cursor.month | date('month') }} {{ cursor.year }}</div>
-                        <div class="col-2 text-center pt-2 pb-2" v-on:click="nextMonth">
-                            <i class="icon-arrow-right"></i>
-                        </div>
+    <section class="content">
+        <div class="input-block semi-transparent-white-cover" v-show="block"></div>
+        <div>
+            <div class="box box-solid">
+                <div class="row">
+                    <div class="col-xs-2 text-center" v-on:click="previousMonth">
+                        <i class="fa fa-angle-left"></i>
                     </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-block">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="callout callout-danger">
-                                            <small class="text-muted">Total expense</small>
-                                            <br>
-                                            <strong class="h4" v-html="$options.filters.currency(totalExpense)"></strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="callout callout-success">
-                                            <small class="text-muted">Total income</small>
-                                            <br>
-                                            <strong class="h4" v-html="$options.filters.currency(totalIncome)"></strong>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <hr class="mt-0">
-                                <ul style="list-style: none; padding: 0; margin: 0; margin-bottom: 1em">
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <span style="color: #318a4f">income</span>
-                                            </div>
-                                            <div class="col-4 text-center">
-                                                <span style="color: #7d7b9a">balance</span>
-                                            </div>
-                                            <div class="col-4 text-right">
-                                                <span style="color: #a83838">expense</span>
-                                            </div>
-                                        </div>
-                                        <div class="bars">
-                                            <div class="progress progress-lg income-v-expense">
-                                                <div class="progress-bar" role="progressbar" :style="{ width: incomePercentage + '%' }" :aria-valuenow="incomePercentage" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <span style="color: #318a4f">{{ incomePercentage }}%</span>
-                                            </div>
-                                            <div class="col-4 text-center">
-                                                <span style="color: #7d7b9a" v-html="$options.filters.currency(totalIncome - totalExpense)"></span>
-                                            </div>
-                                            <div class="col-4 text-right">
-                                                <span style="color: #a83838">{{ expensePercentage }}%</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-
-                                <hr class="mt-0">
-
-                                <h4>Expense by tags</h4>
-                                <ul style="list-style: none; padding: 0; margin: 0; margin-bottom: 1em">
-                                    <template v-for="(tag, tagName) in sortTags('e', tags)">
-                                        <li v-if="tag.totalExpense != 0" v-on:click="toggleTransactionsVisibility('e', tagName)" style="cursor:pointer">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <h6 style="color: #7d7b9a; margin: 0">#{{ tagName }}</h6>
-                                                </div>
-                                            </div>
-                                            <div class="bars">
-                                                <div class="progress progress-sm stat expense">
-                                                    <div class="progress-bar" role="progressbar" :style="{ width: statPercentage('e', tag.totalExpense) + '%' }" :aria-valuenow="statPercentage('e', tag.totalExpense)" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <span style="color: #a83838" v-html="$options.filters.currency(tag.totalExpense)"></span>
-                                                    (<span v-text="statPercentage('e', tag.totalExpense)"></span>%)
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <transition name="slide-fade">
-                                            <li v-show="expenseTransactionsVisibility.includes(tagName)">
-                                                <template v-for="(transaction, index) in tag.transactions">
-                                                    <div class="transaction transaction-mini transaction-padded-left" :class="transaction.type">
-                                                        <div class="transaction-head">
-                                                            <span class="account" v-if="transaction.type !== 'x'">{{ transaction.accountName }}</span>
-                                                            <span class="account" v-if="transaction.type === 'x'">
-                                                                <template v-if="transaction.target">
-                                                                    {{ transaction.accountName }} > {{ transaction.targetName }}
-                                                                </template>
-                                                                <template v-else>
-                                                                    {{ transaction.accountName }} > ???
-                                                                </template>
-                                                            </span>
-                                                            <span>
-                                                                {{ transaction.date.split(' ')[0] | date }} <span v-if="transaction.date.split(' ')[1] !== '00:00:00'">at {{ $options.filters.date(transaction.date).split(' ').slice(-2).join(' ') }}</span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="transaction-body">
-                                                            <h1 v-html="$options.filters.currency(transaction.amount)"/>
-                                                            <p v-if="transaction.note">{{ transaction.note }}</p>
-                                                        </div>
-                                                    </div>
-                                                </template>
-                                            </li>
-                                        </transition>
-                                    </template>
-                                </ul>
-
-                                <h4>Income by tags</h4>
-                                <ul style="list-style: none; padding: 0; margin: 0; margin-bottom: 1em">
-                                    <template v-for="(tag, tagName) in sortTags('i', tags)">
-                                        <li v-if="tag.totalIncome != 0" v-on:click="toggleTransactionsVisibility('i', tagName)" style="cursor:pointer">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <h6 style="color: #7d7b9a; margin: 0">#{{ tagName }}</h6>
-                                                </div>
-                                            </div>
-                                            <div class="bars">
-                                                <div class="progress progress-sm stat income">
-                                                    <div class="progress-bar" role="progressbar" :style="{ width: statPercentage('i', tag.totalIncome) + '%' }" :aria-valuenow="statPercentage('i', tag.totalIncome)" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <span style="color: #318a4f" v-html="$options.filters.currency(tag.totalIncome)"></span>
-                                                    (<span v-text="statPercentage('i', tag.totalIncome)"></span>%)
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <transition name="slide-fade">
-                                            <li v-show="incomeTransactionsVisibility.includes(tagName)">
-                                                <template v-for="(transaction, index) in tag.transactions">
-                                                    <div class="transaction transaction-mini transaction-padded-left" :class="transaction.type">
-                                                        <div class="transaction-head">
-                                                            <span class="account" v-if="transaction.type !== 'x'">{{ transaction.accountName }}</span>
-                                                            <span class="account" v-if="transaction.type === 'x'">
-                                                                <template v-if="transaction.target">
-                                                                    {{ transaction.accountName }} > {{ transaction.targetName }}
-                                                                </template>
-                                                                <template v-else>
-                                                                    {{ transaction.accountName }} > ???
-                                                                </template>
-                                                            </span>
-                                                            <span>
-                                                                {{ transaction.date.split(' ')[0] | date }} <span v-if="transaction.date.split(' ')[1] !== '00:00:00'">at {{ $options.filters.date(transaction.date).split(' ').slice(-2).join(' ') }}</span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="transaction-body">
-                                                            <h1 v-html="$options.filters.currency(transaction.amount)"/>
-                                                            <p v-if="transaction.note">{{ transaction.note }}</p>
-                                                        </div>
-                                                    </div>
-                                                </template>
-                                            </li>
-                                        </transition>
-                                    </template>
-                                </ul>
-                            </div>
-                        </div>
+                    <div class="col-xs-8 text-center">
+                        {{ cursor.month | date('month') }} {{ cursor.year }}
+                    </div>
+                    <div class="col-xs-2 text-center" v-on:click="nextMonth">
+                        <i class="fa fa-angle-right"></i>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="box">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="stat callout callout-danger">
+                            <small>Total expense</small>
+                            <br>
+                            <strong class="h4" v-html="$options.filters.currency(totalExpense)"></strong>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="stat callout callout-success">
+                            <small>Total income</small>
+                            <br>
+                            <strong class="h4" v-html="$options.filters.currency(totalIncome)"></strong>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="mt-0">
+
+                <ul style="list-style: none; padding: 0; margin: 0; margin-bottom: 1em">
+                    <li>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <span style="color: #318a4f">income</span>
+                            </div>
+                            <div class="col-xs-4 text-center">
+                                <span style="color: #7d7b9a">balance</span>
+                            </div>
+                            <div class="col-xs-4 text-right">
+                                <span style="color: #a83838">expense</span>
+                            </div>
+                        </div>
+                        <div class="bars">
+                            <div class="progress progress-lg income-v-expense">
+                                <div class="progress-bar" role="progressbar" :style="{ width: incomePercentage + '%' }" :aria-valuenow="incomePercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <span style="color: #318a4f">{{ incomePercentage }}%</span>
+                            </div>
+                            <div class="col-xs-4 text-center">
+                                <span style="color: #7d7b9a" v-html="$options.filters.currency(totalIncome - totalExpense)"></span>
+                            </div>
+                            <div class="col-xs-4 text-right">
+                                <span style="color: #a83838">{{ expensePercentage }}%</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <hr class="mt-0">
+
+                <h4>Expense by tags</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; margin-bottom: 1em">
+                    <template v-for="(tag, tagName) in sortTags('e', tags)">
+                        <li v-if="tag.totalExpense != 0" v-on:click="toggleTransactionsVisibility('e', tagName)" style="cursor:pointer">
+                            <h6 style="color: #7d7b9a; margin: 0">#{{ tagName }}</h6>
+                            <div class="bars">
+                                <div class="progress progress-sm stat expense">
+                                    <div class="progress-bar" role="progressbar" :style="{ width: statPercentage('e', tag.totalExpense) + '%' }" :aria-valuenow="statPercentage('e', tag.totalExpense)" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <span style="color: #a83838" v-html="$options.filters.currency(tag.totalExpense)"></span>
+                            (<span v-text="statPercentage('e', tag.totalExpense)"></span>%)
+                        </li>
+                        <transition name="slide-fade">
+                            <li v-show="expenseTransactionsVisibility.includes(tagName)">
+                                <template v-for="(transaction, index) in tag.transactions">
+                                    <div class="transaction transaction-mini transaction-padded-left" :class="transaction.type">
+                                        <div class="transaction-head">
+                                            <span class="account" v-if="transaction.type !== 'x'">{{ transaction.accountName }}</span>
+                                            <span class="account" v-if="transaction.type === 'x'">
+                                                <template v-if="transaction.target">
+                                                    {{ transaction.accountName }} > {{ transaction.targetName }}
+                                                </template>
+                                                <template v-else>
+                                                    {{ transaction.accountName }} > ???
+                                                </template>
+                                            </span>
+                                            <span>
+                                                {{ transaction.date.split(' ')[0] | date }} <span v-if="transaction.date.split(' ')[1] !== '00:00:00'">at {{ $options.filters.date(transaction.date).split(' ').slice(-2).join(' ') }}</span>
+                                            </span>
+                                        </div>
+                                        <div class="transaction-body">
+                                            <h1 v-html="$options.filters.currency(transaction.amount)"/>
+                                            <p v-if="transaction.note">{{ transaction.note }}</p>
+                                        </div>
+                                    </div>
+                                </template>
+                            </li>
+                        </transition>
+                    </template>
+                </ul>
+
+                <h4>Income by tags</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; margin-bottom: 1em">
+                    <template v-for="(tag, tagName) in sortTags('i', tags)">
+                        <li v-if="tag.totalIncome != 0" v-on:click="toggleTransactionsVisibility('i', tagName)" style="cursor:pointer">
+                            <h6 style="color: #7d7b9a; margin: 0">#{{ tagName }}</h6>
+                            <div class="bars">
+                                <div class="progress progress-sm stat income">
+                                    <div class="progress-bar" role="progressbar" :style="{ width: statPercentage('i', tag.totalIncome) + '%' }" :aria-valuenow="statPercentage('i', tag.totalIncome)" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <span style="color: #318a4f" v-html="$options.filters.currency(tag.totalIncome)"></span>
+                            (<span v-text="statPercentage('i', tag.totalIncome)"></span>%)
+                        </li>
+                        <transition name="slide-fade">
+                            <li v-show="incomeTransactionsVisibility.includes(tagName)">
+                                <template v-for="(transaction, index) in tag.transactions">
+                                    <div class="transaction transaction-mini transaction-padded-left" :class="transaction.type">
+                                        <div class="transaction-head">
+                                            <span class="account" v-if="transaction.type !== 'x'">{{ transaction.accountName }}</span>
+                                            <span class="account" v-if="transaction.type === 'x'">
+                                                <template v-if="transaction.target">
+                                                    {{ transaction.accountName }} > {{ transaction.targetName }}
+                                                </template>
+                                                <template v-else>
+                                                    {{ transaction.accountName }} > ???
+                                                </template>
+                                            </span>
+                                            <span>
+                                                {{ transaction.date.split(' ')[0] | date }} <span v-if="transaction.date.split(' ')[1] !== '00:00:00'">at {{ $options.filters.date(transaction.date).split(' ').slice(-2).join(' ') }}</span>
+                                            </span>
+                                        </div>
+                                        <div class="transaction-body">
+                                            <h1 v-html="$options.filters.currency(transaction.amount)"/>
+                                            <p v-if="transaction.note">{{ transaction.note }}</p>
+                                        </div>
+                                    </div>
+                                </template>
+                            </li>
+                        </transition>
+                    </template>
+                </ul>
+            </div>
+        </div>
+    </section>
 </template>
 
 <style>
