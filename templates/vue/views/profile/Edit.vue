@@ -71,7 +71,7 @@ export default {
                 name: self.form.name
             }
 
-            self.$http.post('api/profile', data).then(response => {
+            self.$http.patch('api/profile', data).then(response => {
                 window.user.name = self.form.name
                 self.$swal({
                     title: 'Success',
@@ -104,7 +104,7 @@ export default {
                 password: self.form.password
             }
 
-            self.$http.post('api/profile', data).then(response => {
+            self.$http.patch('api/profile', data).then(response => {
                 window.user.name = self.form.name
                 self.$swal({
                     title: 'Success',
