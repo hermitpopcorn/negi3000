@@ -1,49 +1,39 @@
 <template>
-    <div class="sidebar">
-        <nav class="sidebar-nav">
-            <ul class="nav">
-                <li class="nav-item">
-                    <router-link :to="'/overview'" class="nav-link" exact><i class="icon-speedometer"></i> Overview</router-link>
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu" data-widget="tree">
+                <li>
+                    <router-link :to="'/overview'" exact><i class="fa fa-dashboard"></i> <span>Overview</span></router-link>
                 </li>
-                <router-link tag="li" class="nav-item nav-dropdown" :to="{ path: '/transaction'}" disabled>
-                    <div class="nav-link nav-dropdown-toggle" @click="handleClick"><i class="icon-shuffle"></i> Transactions</div>
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <router-link :to="'/transaction/list'" class="nav-link" exact><i class="icon-list"></i> View transactions</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link :to="'/transaction/add'" class="nav-link" exact><i class="icon-note"></i> Add transaction</router-link>
-                        </li>
+                <li class="treeview">
+                    <a>
+                        <i class="fa fa-random"></i>
+                        <span>Transactions</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><router-link :to="'/transaction/list'" exact><i class="fa fa-list"></i> View transactions</router-link></li>
+                        <li><router-link :to="'/transaction/add'" exact><i class="fa fa-plus"></i> Add transactions</router-link></li>
                     </ul>
-                </router-link>
-                <li class="nav-item">
-                    <router-link :to="'/account/list'" class="nav-link" exact><i class="icon-notebook"></i> Accounts</router-link>
                 </li>
-                <li class="nav-item">
-                    <router-link :to="'/stats/monthly'" class="nav-link" exact><i class="icon-graph"></i> Statistics</router-link>
+                <li>
+                    <router-link :to="'/account/list'" exact><i class="fa fa-book"></i> <span>Accounts</span></router-link>
                 </li>
-                <li class="nav-item">
-                    <router-link :to="'/profile'" class="nav-link" exact><i class="icon-user"></i> Profile</router-link>
+                <li>
+                    <router-link :to="'/stats/monthly'" exact><i class="fa fa-bar-chart"></i> <span>Statistics</span></router-link>
+                </li>
+                <li>
+                    <router-link :to="'/profile'" exact><i class="fa fa-user"></i> <span>Profile</span></router-link>
                 </li>
             </ul>
-        </nav>
-    </div>
+        </section>
+    </aside>
 </template>
 
-<script>
-export default {
-    name: 'sidebar',
-    methods: {
-        handleClick (e) {
-            e.preventDefault()
-            e.target.parentElement.classList.toggle('open')
-        }
-    }
-}
-</script>
-
 <style lang="css">
-.nav-link {
-    cursor:pointer;
+.nav-link, li.treeview, li.treeview > a {
+    cursor: pointer;
 }
 </style>

@@ -1,3 +1,7 @@
+.no-margin-top {
+    margin-top: 0;
+}
+
 body.home {
     margin: 0;
     padding: 0;
@@ -7,6 +11,11 @@ body.home {
     font-size: 1em;
     margin-top: 5%;
     text-align: center;
+}
+
+body.app {
+    font-family: "Titillium Web", sans-serif;
+    font-size: 14px;
 }
 
 .home h1.site-title {
@@ -44,23 +53,21 @@ body.home {
     bottom: 0;
 }
 
-.app {
-    font-family: "Titillium Web", sans-serif;
-    font-size: 14px;
-}
-
 header.navbar .navbar-brand {
     background-image: url("../../image/logo.png");
 }
 
-.dropdown-menu {
-    display: block;
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header {
+    height: auto;
 }
 
 span.decimal {
     font-size: 0.7em;
 }
 
+.progress {
+    margin-bottom: 0;
+}
 .progress.income-v-expense {
     background-color: #f86c6b !important;
 }
@@ -87,7 +94,10 @@ span.decimal {
     clear: both;
 }
 .transaction h1 {
+    font-family: "Titillium Web", sans-serif;
+    margin-top: 0;
     margin-left: 0.5em;
+    margin-bottom: 0.5rem;
     text-align: right;
     float: right;
 }
@@ -160,6 +170,23 @@ span.decimal {
     font-size: 0.75em;
 }
 
+.transaction.transaction-padded-left {
+    padding-left: 1em;
+}
+.transaction.transaction-mini .transaction-body {
+    padding-top: 0;
+}
+.transaction.transaction-mini .transaction-body h1 {
+    font-size: 1.5em;
+    float: left;
+    margin-left: 0;
+    margin-right: .5em;
+}
+.transaction.transaction-mini .transaction-body p {
+    margin-bottom: 0.25em;
+}
+
+
 .transaction-separator {
     background-color: #e1e1e1;
     margin-top: 1.25em;
@@ -169,6 +196,10 @@ span.decimal {
 
 .tags {
     background-color: #e7e7e7;
+}
+.tags .transaction-body {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
 .transaction.i .tags .transaction-body {
     background-color: #9bf597;
@@ -198,4 +229,8 @@ hr.float-clear {
     border: none;
     margin: 0;
     padding: 0;;
+}
+
+.stat.callout * {
+    font-family: "Titillium Web", sans-serif;
 }

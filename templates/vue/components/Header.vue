@@ -1,16 +1,40 @@
 <template>
-    <navbar>
-        <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button" @click="mobileSidebarToggle">&#9776;</button>
-        <a class="navbar-brand" href="#"></a>
-        <ul class="nav navbar-nav ml-auto" style="margin-right: 2em">
-            <li class="nav-item d-md-down-none">
-                <router-link :to="{ path: '/profile' }"><span class="d-md-down-none btn btn-primary btn-sm btn-block">{{ user.name }}</span></router-link>
-            </li>
-            <li class="nav-item d-md-down-none">
-                <a class="btn btn-danger btn-sm" href="auth/logout"><strong><i class="icon-logout"></i> Log out</strong></a>
-            </li>
-        </ul>
-    </navbar>
+    <header class="main-header">
+        <router-link :to="{ path: '/' }" class="logo">
+            <span class="logo-mini"><b>N</b>3K</span>
+            <span class="logo-lg"><b>NEGI</b>3000</span>
+        </router-link>
+
+        <nav class="navbar navbar-static-top">
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button" @click="sidebarToggle">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown user user-menu" style="cursor:default">
+                        <a class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="hidden-xs">{{ user.name }}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="user-header">
+                                <p>
+                                    {{ user.name }}
+                                </p>
+                            </li>
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <router-link :to="{ path: '/profile' }" class="btn btn-default btn-flat">Profile</router-link>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="auth/logout" class="btn btn-default btn-flat">Log out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 </template>
 <script>
 
@@ -27,24 +51,10 @@ export default {
         navbar
     },
     methods: {
-        click () {
-            // do nothing
-        },
         sidebarToggle (e) {
             e.preventDefault()
-            document.body.classList.toggle('sidebar-hidden')
-        },
-        sidebarMinimize (e) {
-            e.preventDefault()
-            document.body.classList.toggle('sidebar-compact')
-        },
-        mobileSidebarToggle (e) {
-            e.preventDefault()
-            document.body.classList.toggle('sidebar-mobile-show')
-        },
-        asideToggle (e) {
-            e.preventDefault()
-            document.body.classList.toggle('aside-menu-hidden')
+            document.body.classList.toggle('sidebar-collapse')
+            document.body.classList.toggle('sidebar-open')
         }
     }
 }

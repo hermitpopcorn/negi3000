@@ -4,7 +4,6 @@ $("form#login-form").submit(function(e) {
     e.preventDefault();
     dom = this;
 
-    $(dom).find(".input-block").show();
     $("input").blur();
 
     hideMessage();
@@ -27,28 +26,27 @@ $("form#login-form").submit(function(e) {
         });
     })
     .fail(function(response) {
-        $(dom).find(".input-block").hide();
         if(typeof response.responseJSON != "undefined") {
-            showMessage("Sign in failure", response.responseJSON.message, 'card-danger');
+            showMessage("Sign in failure", response.responseJSON.message, 'callout-danger');
         }
     });
 });
 
 function welcomeUser(name) {
-    this.showMessage("Sign in successful", "Welcome back, <b>" + name + "</b>.", 'card-primary', function() {
+    this.showMessage("Sign in successful", "Welcome back, <b>" + name + "</b>.", 'callout-success', function() {
         window.location.href = 'app';
     });
 }
 
 function showMessage(title, message, type, after) {
-    $(".message-card").fadeIn(500);
-    $(".message-card #message-title").text(title);
-    $(".message-card #message-content").html(message);
-    $(".message-card").removeClass("card-primary");
-    $(".message-card").removeClass("card-danger");
-    $(".message-card").removeClass("card-info");
-    $(".message-card").removeClass("card-warning");
-    $(".message-card").addClass(type);
+    $("#message-callout").fadeIn(500);
+    $("#message-callout #message-title").text(title);
+    $("#message-callout #message-content").html(message);
+    $("#message-callout").removeClass("callout-success");
+    $("#message-callout").removeClass("callout-danger");
+    $("#message-callout").removeClass("callout-info");
+    $("#message-callout").removeClass("callout-warning");
+    $("#message-callout").addClass(type);
 
     clearTimeout(messageTimeout);
     if(typeof after == "undefined") {
@@ -61,7 +59,8 @@ function showMessage(title, message, type, after) {
 }
 
 function hideMessage() {
-    $(".message-card").fadeOut(500);
-    $(".message-card #message-title").text("");
-    $(".message-card #message-content").text("");
+    $("#message-callout").fadeOut(500, function() {
+        $("#message-callout #message-title").text("");
+        $("#message-callout #message-content").text("");
+    });
 }

@@ -1,14 +1,13 @@
 <template>
-    <div class="app">
+    <div class="wrapper">
         <AppHeader/>
-        <div class="app-body">
-            <Sidebar/>
-            <main class="main">
+        <Sidebar/>
+        <div class="content-wrapper">
+            <section class="content-header">
+                <h1>{{ name }}</h1>
                 <breadcrumb :list="list"/>
-                <div class="container-fluid">
-                    <router-view></router-view>
-                </div>
-            </main>
+            </section>
+            <router-view></router-view>
         </div>
         <AppFooter/>
     </div>
@@ -30,7 +29,7 @@ export default {
     },
     computed: {
         name() {
-            return this.$route.name
+            return this.$route.meta && this.$route.meta.label || this.$route.name
         },
 
         list() {

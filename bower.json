@@ -16,10 +16,9 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "4.0.0-alpha.6",
     "font-awesome": "fontawesome#^4.7.0",
     "jquery": "3",
-    "PACE": "pace#^1.0.2",
-    "simple-line-icons": "^2.4.1"
+    "bootstrap": "3.3.4",
+    "AdminLTE": "admin-lte#^2.3.11"
   }
 }

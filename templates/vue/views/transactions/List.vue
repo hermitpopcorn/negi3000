@@ -1,28 +1,32 @@
 <template>
-    <div class="animated fadeIn">
+    <section class="content">
         <div class="row">
-            <div class="col-lg-8 push-lg-2 col-md-12">
+            <div class="col-lg-8 col-lg-push-2">
                 <div class="row">
-                    <div class="col-6 col-md-3 push-6 push-md-9">
-                        <router-link :to="'/transaction/add'" class="btn btn-primary btn-block" exact><i class="icon-note"></i> Add</router-link>
+                    <div class="col-xs-6 col-md-3 col-xs-push-6 col-md-push-9">
+                        <router-link :to="'/transaction/add'" class="btn btn-primary btn-block" exact><i class="fa fa-pencil-square-o"></i> Add</router-link>
                     </div>
                 </div>
 
                 <div class="input-block semi-transparent-white-cover" v-show="block"></div>
-                <div class="card">
-                    <div class="card-block row p-0">
-                        <div class="col-2 text-center pt-2 pb-2" v-on:click="previousMonth">
-                            <i class="icon-arrow-left"></i>
-                        </div>
-                        <div class="col-8 text-center pt-2 pb-2">{{ cursor.month | date('month') }} {{ cursor.year }}</div>
-                        <div class="col-2 text-center pt-2 pb-2" v-on:click="nextMonth">
-                            <i class="icon-arrow-right"></i>
+                <div>
+                    <div class="box box-solid">
+                        <div class="row">
+                            <div class="col-xs-2 text-center" v-on:click="previousMonth">
+                                <i class="fa fa-angle-left"></i>
+                            </div>
+                            <div class="col-xs-8 text-center">
+                                {{ cursor.month | date('month') }} {{ cursor.year }}
+                            </div>
+                            <div class="col-xs-2 text-center" v-on:click="nextMonth">
+                                <i class="fa fa-angle-right"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-block">
+                <div class="box box-solid">
+                    <div class="box-body">
                         <div class="transaction b">
                             <div class="transaction-body white">
                                 <span>Balance</span>
@@ -32,8 +36,8 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-block">
+                <div class="box box-solid">
+                    <div class="box-body">
                         <div class="transaction b">
                             <div class="transaction-body white">
                                 <span>Balance at the end of the period</span>
@@ -64,7 +68,7 @@
                                     <p v-if="transaction.note">{{ transaction.note }}</p>
                                 </div>
                                 <div class="tags" v-if="transaction.tags.length > 0">
-                                    <div class="transaction-body pt-1 pb-1">
+                                    <div class="transaction-body">
                                         Tags:
                                         <template v-for="tag in transaction.tags">
                                             <router-link tag="span" class="tag" :to="{ path: '/transaction/list/tagged/'+tag }">#{{ tag }}</router-link>
@@ -81,10 +85,9 @@
                         </div>
                     </div>
                 </div>
-            </div><!--/.col-->
-        </div><!--/.row-->
-    </div>
-
+            </div>
+        </div>
+    </section>
 </template>
 
 <script>

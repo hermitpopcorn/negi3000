@@ -1,16 +1,16 @@
 <template>
-    <div class="animated fadeIn">
+    <section class="content">
         <div class="row">
-            <div class="col-lg-8 push-lg-2 col-md-12">
-                <div class="card">
-                    <div class="card-block">
-                        <form>
+            <div class="col-lg-8 col-lg-push-2">
+                <div class="box">
+                    <form>
+                        <div class="box-body">
                             <div class="input-block semi-transparent-white-cover" v-show="form.block"></div>
                             <div class="form-group">
                                 <label class="form-control-label">Change Name</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="icon icon-user"></i>
+                                        <i class="fa fa-user"></i>
                                     </span>
                                     <input type="text" class="form-control" v-model="form.name"></input>
                                     <span class="input-group-btn">
@@ -22,7 +22,7 @@
                                 <label class="form-control-label">Change Password</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="icon icon-lock"></i>
+                                        <i class="fa fa-lock"></i>
                                     </span>
                                     <input type="password" class="form-control" v-model="form.password"></input>
                                     <span class="input-group-btn">
@@ -30,12 +30,12 @@
                                     </span>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -71,7 +71,7 @@ export default {
                 name: self.form.name
             }
 
-            self.$http.post('api/profile', data).then(response => {
+            self.$http.patch('api/profile', data).then(response => {
                 window.user.name = self.form.name
                 self.$swal({
                     title: 'Success',
@@ -104,7 +104,7 @@ export default {
                 password: self.form.password
             }
 
-            self.$http.post('api/profile', data).then(response => {
+            self.$http.patch('api/profile', data).then(response => {
                 window.user.name = self.form.name
                 self.$swal({
                     title: 'Success',

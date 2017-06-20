@@ -26,3 +26,6 @@ $container['controllers/auth'] = function($c) {
     require_once __ROOT__ . "/src/controllers/Auth.php";
     return new \App\Controller\Auth($c);
 };
+
+// load API controllers
+require __ROOT__ . "/src/controllers/api/loader.php";

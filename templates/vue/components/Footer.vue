@@ -1,6 +1,9 @@
 <template>
-    <footer class="app-footer">
-        negi3000 &copy; 2017 Dani Nugraha
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 0.x.0
+        </div>
+        <strong>negi3000</strong>
     </footer>
 </template>
 <script>
