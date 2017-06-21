@@ -3,7 +3,7 @@ var App = {
 
     getUser: function() {
         if(this.user == null) {
-            return Vue.http.get('user/details').then(response => {
+            return Vue.http.get('api/user/details').then(response => {
                 this.user = response.body;
                 return response.body;
             }, response => {

@@ -3,14 +3,10 @@
 
 namespace App\Controller\API;
 
-class Transactions extends \App\Controller\API\BaseController
+class Transactions extends \App\Controller\BaseController
 {
     public function getOne($request, $response, $args)
     {
-        if(!$this->segment) {
-            return $this->forbiddenHandler($request, $response);
-        }
-
         $transactionUID = $args['UID'];
 
         $transactionsModel = $this->get('models/transactions');
@@ -22,7 +18,7 @@ class Transactions extends \App\Controller\API\BaseController
             ]);
         }
 
-        if($transaction->account->user_id !== $this->segment->get('user')) {
+        if($transaction->account->user_id !== $request->getAttribute('user')) {
             return $response->withStatus(403)->withJSON([
                 'message' => "Transaction not yours."
             ]);
@@ -48,10 +44,6 @@ class Transactions extends \App\Controller\API\BaseController
 
     public function getSome($request, $response, $args)
     {
-        if(!$this->segment) {
-            return $this->forbiddenHandler($request, $response);
-        }
-
         $accountUID = !empty($args['accountUID']) ? $args['accountUID'] : 'all';
         $year = !empty($args['year']) ? $args['year'] : false;
         $month = !empty($args['month']) ? $args['month'] : false;
@@ -65,7 +57,7 @@ class Transactions extends \App\Controller\API\BaseController
                     'message' => "Account not found."
                 ]);
             }
-            if($account->user_id !== $this->segment->get('user')) {
+            if($account->user_id !== $request->getAttribute('user')) {
                 return $response->withStatus(403)->withJSON([
                     'message' => "Account not yours."
                 ]);
@@ -74,7 +66,7 @@ class Transactions extends \App\Controller\API\BaseController
             $transactions = $account->getTransactions($year, $month, $date);
         } else {
             $usersModel = $this->get('models/users');
-            $user = $usersModel->find($this->segment->get('user'));
+            $user = $usersModel->find($request->getAttribute('user'));
             if(!$user) {
                 return $response->withStatus(400)->withJSON([
                     'message' => "User not found."
@@ -112,12 +104,7 @@ class Transactions extends \App\Controller\API\BaseController
 
     public function getSomeTagged($request, $response, $args)
     {
-        if(!$this->segment) {
-            return $this->forbiddenHandler($request, $response);
-        }
-
-        $segment = $this->session->getSegment('negi3000\Auth');
-        $userID = $segment->get('user');
+        $userID = $request->getAttribute('user');
         $tags = array_filter(explode(',', $args['tags']));
 
         $tagsModel = $this->get('models/tags');
@@ -161,8 +148,7 @@ class Transactions extends \App\Controller\API\BaseController
 
     public function post($request, $response, $args)
     {
-        $segment = $this->session->getSegment('negi3000\Auth');
-        $userID = $segment->get('user');
+        $userID = $request->getAttribute('user');
         $type = $request->getParam('type');
         $accountUID = $request->getParam('account');
         $targetUID = $type === 'x' ? $request->getParam('target') : null;
@@ -211,9 +197,8 @@ class Transactions extends \App\Controller\API\BaseController
 
     public function put($request, $response, $args)
     {
-        $segment = $this->session->getSegment('negi3000\Auth');
         $transactionUID = $args['UID'];
-        $userID = $segment->get('user');
+        $userID = $request->getAttribute('user');
         $type = $request->getParam('type');
         $accountUID = $request->getParam('account');
         $targetUID = $type === 'x' ? $request->getParam('target') : null;
@@ -262,7 +247,6 @@ class Transactions extends \App\Controller\API\BaseController
 
     public function delete($request, $response, $args)
     {
-        $segment = $this->session->getSegment('negi3000\Auth');
         $transactionUID = $args['UID'];
 
         $delete = false;

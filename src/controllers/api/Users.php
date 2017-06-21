@@ -3,7 +3,7 @@
 
 namespace App\Controller\API;
 
-class Users extends \App\Controller\API\BaseController
+class Users extends \App\Controller\BaseController
 {
     public function patchProfile($request, $response, $args)
     {
@@ -48,5 +48,30 @@ class Users extends \App\Controller\API\BaseController
         return $response->withStatus(200)->withJSON([
             'message' => "User data updated."
         ]);
+    }
+
+    public function getDetails($request, $response, $args)
+    {
+        $userID = $request->getAttribute('user');
+
+        // Fail if not logged in
+        if(!$userID) {
+            return $response->withStatus(403)->withJSON([
+                'message' => "Invalid login."
+            ]);
+        }
+
+        // Get user data from database
+        $usersModel = $this->get('models/users');
+        $user = $usersModel->find($userID);
+        if(!$user) {
+            return $response->withStatus(400)->withJSON([
+                'message' => "Invalid login."
+            ]);
+        }
+        $userDetails = $user->getDetails();
+
+        // Return user data
+        return $response->withStatus(200)->withJSON($userDetails);
     }
 }

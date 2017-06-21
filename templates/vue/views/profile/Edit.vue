@@ -30,6 +30,10 @@
                                     </span>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="form-control-label">Your Token</label>
+                                <input type="text" class="form-control" v-model="form.token" readonly>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -46,7 +50,8 @@ export default {
             form: {
                 block: false,
                 name: "",
-                password: ""
+                password: "",
+                token: ""
             }
         }
     },
@@ -54,6 +59,7 @@ export default {
         var self = this
 
         self.$set(self.form, 'name', window.user.name);
+        self.$set(self.form, 'token', window.user.token);
     },
     methods: {
         saveName: function(e) {

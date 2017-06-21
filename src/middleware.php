@@ -10,17 +10,20 @@ $middleware['view'] = function ($request, $response, $next) {
     return $next($request, $response);
 };
 
-// CSRF protection
-$middleware['csrfp'] = function ($request, $response, $next) use ($container) {
-    $segment = $container->session->getSegment('negi3000\Auth');
-    $sessionToken = $segment->get('csrf_token');
-    $submittedToken = $request->getParam('csrfToken');
-    if($sessionToken !== $submittedToken) {
-        return $response->withStatus(400)->withJson([
-            'message' => "Invalid CSRF token."
+// Require authorization token
+$middleware['auth-token'] = function ($request, $response, $next) use ($container) {
+    // Get token from authorization header
+    $token = $request->getHeader('Authorization');
+
+    $usersModel = $this->get('models/users');
+    $user = $usersModel->findByToken($token);
+    if(!$user) {
+        return $response->withStatus(403)->withJSON([
+            'message' => "Unauthorized"
         ]);
     }
-    return $next($request, $response);
+
+    return $next($request->withAttribute('user', $user), $response);
 };
 
 $middleware['cache'] = new \Slim\HttpCache\Cache('public', 86400);

@@ -18,8 +18,11 @@ $("form#login-form").submit(function(e) {
         data: loginData
     })
     .done(function(response) {
+        token = response.token;
+
         $.ajax({
-            url: 'user/details'
+            url: 'api/user/details',
+            headers: { "Authorization": token }
         })
         .done(function(response) {
             welcomeUser(response.name);

@@ -14,7 +14,8 @@ Vue.filter('date', VueFilters.date)
 import App from './App.vue'
 import router from './router'
 
-Vue.http.get('user/details').then(response => {
+Vue.http.headers.common['Authorization'] = window.token;
+Vue.http.get('api/user/details').then(response => {
     // start app if logged in
     window.user = response.body
     /* eslint-disable no-new */

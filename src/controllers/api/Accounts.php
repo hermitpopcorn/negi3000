@@ -3,16 +3,12 @@
 
 namespace App\Controller\API;
 
-class Accounts extends \App\Controller\API\BaseController
+class Accounts extends \App\Controller\BaseController
 {
     public function getAll($request, $response, $args)
     {
-        if(!$this->segment) {
-            return $this->forbiddenHandler($request, $response);
-        }
-
         $usersModel = $this->get('models/users');
-        $user = $usersModel->find($this->segment->get('user'));
+        $user = $usersModel->find($request->getAttribute('user'));
         if(!$user) {
             return $response->withStatus(404)->withJSON([
                 'message' => "User not found."
@@ -39,15 +35,11 @@ class Accounts extends \App\Controller\API\BaseController
 
     public function getOne($request, $response, $args)
     {
-        if(!$this->segment) {
-            return $this->forbiddenHandler($request, $response);
-        }
-
         $accountUID = $args['UID'];
 
         $accountsModel = $this->get('models/accounts');
         $account = $accountsModel->getByUID($accountUID);
-        if(!$account || $account->user_id !== $this->segment->get('user')) {
+        if(!$account || $account->user_id !== $request->getAttribute('user')) {
             return $response->withStatus(404)->withJSON([
                 'message' => "Account not found."
             ]);
@@ -68,8 +60,7 @@ class Accounts extends \App\Controller\API\BaseController
 
     public function post($request, $response, $args)
     {
-        $segment = $this->session->getSegment('negi3000\Auth');
-        $userID = $segment->get('user');
+        $userID = $request->getAttribute('user');
         $name = $request->getParam('name');
         $initialBalance = $request->getParam('initialBalance');
         $isSink = $request->getParam('isSink');
@@ -97,9 +88,8 @@ class Accounts extends \App\Controller\API\BaseController
 
     public function put($request, $response, $args)
     {
-        $segment = $this->session->getSegment('negi3000\Auth');
         $accountUID = $args['UID'];
-        $userID = $segment->get('user');
+        $userID = $request->getAttribute('user');
         $name = $request->getParam('name');
         $initialBalance = $request->getParam('initialBalance');
         $isSink = $request->getParam('isSink');
@@ -129,7 +119,6 @@ class Accounts extends \App\Controller\API\BaseController
 
     public function delete($request, $response, $args)
     {
-        $segment = $this->session->getSegment('negi3000\Auth');
         $accountUID = $args['UID'];
 
         $delete = false;

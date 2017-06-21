@@ -1,8 +1,5 @@
 <?php
 
-// require base controller
-require_once __ROOT__ . "/src/controllers/api/BaseAPIController.php";
-
 // accounts controller
 $container['controllers/api/accounts'] = function($c) {
     require_once __ROOT__ . "/src/controllers/api/Accounts.php";

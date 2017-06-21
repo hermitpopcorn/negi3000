@@ -15,6 +15,14 @@ class User extends \Illuminate\Database\Eloquent\Model
         return $this->hasManyThrough('App\Model\Transaction', 'App\Model\Account');
     }
 
+    public function findByToken($token)
+    {
+        $user = $this->select('id')->where('token', $token)->first();
+        if(!$user) { return false; }
+
+        return $user->id;
+    }
+
     public function authenticate($username, $password)
     {
         $user = $this
@@ -44,8 +52,31 @@ class User extends \Illuminate\Database\Eloquent\Model
 
         return (object) [
             'name' => $this->name,
-            'username' => $this->username
+            'username' => $this->username,
+            'token' => $this->token
         ];
+    }
+
+    public function setToken($tokenGenerator)
+    {
+        if(!isset($this->id)) {
+            return false;
+        }
+
+        $tokenCheck = true;
+        while($tokenCheck) {
+            $token = $tokenGenerator();
+            $tokenCheck = $this->where('token', $token)->first();
+        }
+
+        $this->token = $token;
+        $save = $this->save();
+
+        if($save) {
+            return $token;
+        } else {
+            return false;
+        }
     }
 
     public function getTransactions($year = false, $month = false, $date = false)

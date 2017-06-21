@@ -59,7 +59,7 @@ $container['rsgen/identifier'] = $container->factory(function ($c) {
 $container['rsgen/token'] = $container->factory(function ($c) {
     $factory = new \RandomLib\Factory;
     $generator = $factory->getMediumStrengthGenerator();
-    return $generator->generateString(32);
+    return $generator->generateString(16);
 });
 
 // handlers

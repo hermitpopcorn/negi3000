@@ -8,13 +8,6 @@ class App extends \App\Controller\BaseController
     public function __construct($container)
     {
         parent::__construct($container);
-
-        $segment = $this->session->getSegment('negi3000\Auth');
-        if($segment->get('user')) {
-            $this->segment = $segment;
-        } else {
-            $this->segment = false;
-        }
     }
 
     public function home($request, $response, $args)
@@ -24,6 +17,8 @@ class App extends \App\Controller\BaseController
 
     public function app($request, $response, $args)
     {
-        return $this->renderer->render($response, 'app/index.phtml');
+        $segment = $this->session->getSegment('negi3000\Auth');
+
+        return $this->renderer->render($response, 'app/index.phtml', [ 'token' => $segment->get('token') ]);
     }
 }

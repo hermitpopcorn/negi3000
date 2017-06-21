@@ -27,7 +27,7 @@ class BaseController
         }
     }
 
-    protected function generateCsrfToken()
+    protected function generateToken()
     {
         return $this->container->get('rsgen/token');
     }

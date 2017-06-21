@@ -3,20 +3,16 @@
 
 namespace App\Controller\API;
 
-class Stats extends \App\Controller\API\BaseController
+class Stats extends \App\Controller\BaseController
 {
     public function getBalance($request, $response, $args)
     {
-        if(!$this->segment) {
-            return $this->forbiddenHandler($request, $response);
-        }
-
         $accountUID = !empty($args['accountUID']) ? $args['accountUID'] : false;
         $date = !empty($args['date']) ? $args['date'] : false;
 
         if(!$accountUID || $accountUID == 'all') {
             $usersModel = $this->get('models/users');
-            $user = $usersModel->find($this->segment->get('user'));
+            $user = $usersModel->find($request->getAttribute('user'));
             if(!$user) {
                 return $response->withStatus(404)->withJSON([
                     'message' => "User not found."
@@ -25,7 +21,7 @@ class Stats extends \App\Controller\API\BaseController
             $balance = $user->getTotalBalance($date);
         } else {
             $accountsModel = $this->get('models/accounts');
-            $accountID = $accountsModel->check($this->segment->get('user'), $accountUID);
+            $accountID = $accountsModel->check($request->getAttribute('user'), $accountUID);
             if(!$accountUID) {
                 return $response->withStatus(404)->withJSON([
                     'message' => "Account not found."
@@ -40,16 +36,12 @@ class Stats extends \App\Controller\API\BaseController
 
     public function getIncome($request, $response, $args)
     {
-        if(!$this->segment) {
-            return $this->forbiddenHandler($request, $response);
-        }
-
         $year = !empty($args['year']) ? $args['year'] : false;
         $month = !empty($args['month']) ? $args['month'] : false;
         $date = !empty($args['date']) ? $args['date'] : false;
 
         $usersModel = $this->get('models/users');
-        $user = $usersModel->find($this->segment->get('user'));
+        $user = $usersModel->find($request->getAttribute('user'));
         if(!$user) {
             return $response->withStatus(400)->withJSON([
                 'message' => "User not found."
@@ -63,16 +55,12 @@ class Stats extends \App\Controller\API\BaseController
 
     public function getExpense($request, $response, $args)
     {
-        if(!$this->segment) {
-            return $this->forbiddenHandler($request, $response);
-        }
-
         $year = !empty($args['year']) ? $args['year'] : false;
         $month = !empty($args['month']) ? $args['month'] : false;
         $date = !empty($args['date']) ? $args['date'] : false;
 
         $usersModel = $this->get('models/users');
-        $user = $usersModel->find($this->segment->get('user'));
+        $user = $usersModel->find($request->getAttribute('user'));
         if(!$user) {
             return $response->withStatus(400)->withJSON([
                 'message' => "User not found."

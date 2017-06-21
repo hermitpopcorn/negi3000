@@ -41,13 +41,22 @@ class Auth extends \App\Controller\BaseController
             ]);
         }
 
+        $tokenGenerator = function() { return $this->get('rsgen/token'); };
+        $setToken = $user->setToken($tokenGenerator);
+        if(!$setToken) {
+            return $response->withStatus(500)->withJSON([
+                'success' => false,
+                'message' => "Unable to set token."
+            ]);
+        }
+
         // Log in user by storing the user ID and CSRF token into session
         $segment = $this->session->getSegment('negi3000\Auth');
         $segment->set('user', $user->id);
-        $segment->set('csrf_token', $this->generateCsrfToken());
+        $segment->set('token', $setToken);
 
         // Return success
-        return $response->withStatus(200);
+        return $response->withStatus(200)->withJSON(['token' => $setToken]);
     }
 
     public function logoutProcess($request, $response, $args)
@@ -55,40 +64,5 @@ class Auth extends \App\Controller\BaseController
         $this->session->destroy();
 
         return $response->withRedirect($this->container->get('router')->pathFor('home'));
-    }
-
-    public function getDetails($request, $response, $args)
-    {
-        // Get logged in user ID from session
-        $segment = $this->session->getSegment('negi3000\Auth');
-        $userID = $segment->get('user');
-
-        // Fail if not logged in
-        if(!$userID) {
-            return $response->withStatus(403)->withJSON([
-                'message' => "Invalid login."
-            ]);
-        }
-
-        // Get user data from database
-        $usersModel = $this->get('models/users');
-        $user = $usersModel->find($userID);
-        if(!$user) {
-            return $response->withStatus(400)->withJSON([
-                'message' => "Invalid login"
-            ]);
-        }
-        $userDetails = $user->getDetails();
-
-        // Get CSRF token from session, and if not exits, generate a new one
-        $csrfToken = $segment->get('csrf_token');
-        if(!$csrfToken) {
-            $csrfToken = $this->generateCsrfToken();
-            $segment->set('csrf_token', $csrfToken);
-        }
-        $userDetails->csrfToken = $csrfToken;
-
-        // Return user data
-        return $response->withStatus(200)->withJSON($userDetails);
     }
 }
