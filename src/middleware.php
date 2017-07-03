@@ -13,7 +13,7 @@ $middleware['view'] = function ($request, $response, $next) {
 // Require authorization token
 $middleware['auth-token'] = function ($request, $response, $next) use ($container) {
     // Get token from authorization header
-    $token = $request->getHeader('Authorization');
+    $token = $request->getHeader('Auth');
 
     $usersModel = $this->get('models/users');
     $user = $usersModel->findByToken($token);

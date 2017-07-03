@@ -22,7 +22,7 @@ $("form#login-form").submit(function(e) {
 
         $.ajax({
             url: 'api/user/details',
-            headers: { "Authorization": token }
+            headers: { "Auth": token }
         })
         .done(function(response) {
             welcomeUser(response.name);
