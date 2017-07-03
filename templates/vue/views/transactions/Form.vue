@@ -210,7 +210,6 @@ export default {
             self.$set(self.form, 'block', true)
 
             var data = {
-                csrfToken: window.user.csrfToken,
                 type: self.form.type,
                 account: self.form.account,
                 target: self.form.type === 'x' ? self.form.target : null,

@@ -73,7 +73,6 @@ export default {
             self.$set(self.form, 'block', true)
 
             var data = {
-                csrfToken: window.user.csrfToken,
                 name: self.form.name
             }
 
@@ -106,7 +105,6 @@ export default {
             self.$set(self.form, 'block', true)
 
             var data = {
-                csrfToken: window.user.csrfToken,
                 password: self.form.password
             }
 

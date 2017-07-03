@@ -53,7 +53,7 @@ class Auth extends \App\Controller\BaseController
             ]);
         }
 
-        // Log in user by storing the user ID and CSRF token into session
+        // Log in user by storing the user ID and token into session
         $segment = $this->session->getSegment('negi3000\Auth');
         $segment->set('user', $user->id);
         $segment->set('token', $setToken);

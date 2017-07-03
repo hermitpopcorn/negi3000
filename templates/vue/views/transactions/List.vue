@@ -191,7 +191,7 @@ export default {
                 cancelButtonColor: '#1985ac',
                 confirmButtonText: 'Delete'
             }).then(function() {
-                self.$http.delete('api/transaction/'+transaction, { body: { csrfToken: window.user.csrfToken } }).then(response => {
+                self.$http.delete('api/transaction/'+transaction).then(response => {
                     self.$swal({
                         title: 'Deleted',
                         text: 'Transaction has been deleted.',

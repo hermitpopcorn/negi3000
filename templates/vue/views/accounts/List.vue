@@ -123,7 +123,7 @@ export default {
         hideForm: function() {
             this.$set(this.form, 'show', false)
         },
-        
+
         getAccounts: function() {
             var self = this
             self.accounts = []
@@ -177,7 +177,7 @@ export default {
                 cancelButtonColor: '#1985ac',
                 confirmButtonText: 'Delete'
             }).then(function() {
-                self.$http.delete('api/account/'+account, { body: { csrfToken: window.user.csrfToken } }).then(response => {
+                self.$http.delete('api/account/'+account).then(response => {
                     self.$swal({
                         title: 'Deleted',
                         text: 'Account has been deleted.',
@@ -206,7 +206,6 @@ export default {
             self.$set(self.form, 'block', true)
 
             var data = {
-                csrfToken: window.user.csrfToken,
                 name: self.form.name,
                 initialBalance: self.form.isSink ? 0 : self.form.initialBalance,
                 isSink: self.form.isSink
