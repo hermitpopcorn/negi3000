@@ -159,6 +159,13 @@ class Transactions extends \App\Controller\BaseController
 
         $insert = false;
 
+        // Make sure the date given is valid
+        if(strtotime($date) === false) {
+            return $response->withStatus(400)->withJSON([
+                'message' => "Invalid date."
+            ]);
+        }
+
         // Verify user and account
         $accountsModel = $this->get('models/accounts');
         $accountID = $accountsModel->check($userID, $accountUID);
@@ -208,6 +215,13 @@ class Transactions extends \App\Controller\BaseController
         $tags = $request->getParam('tags');
 
         $update = false;
+
+        // Make sure the date given is valid
+        if(strtotime($date) === false) {
+            return $response->withStatus(400)->withJSON([
+                'message' => "Invalid date."
+            ]);
+        }
 
         // Verify user and account
         $accountsModel = $this->get('models/accounts');
