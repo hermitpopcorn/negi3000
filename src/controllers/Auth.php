@@ -13,6 +13,9 @@ class Auth extends \App\Controller\BaseController
             $users = $this->container->get('models/users');
             $user = $users->find($segment->get('user'));
             if($user) {
+                // If logged in, just refresh the token
+                $segment->set('token', $user->token);
+
                 return $response->withRedirect(
                     $this->router->pathFor('app/index')
                 );
