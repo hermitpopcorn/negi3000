@@ -39,7 +39,7 @@ export default {
     },
     methods: {
         keydownEvent(e) {
-            if(e.key == "#") {
+            if(e.key == "#" || e.key == "," || e.key == " ") {
                 e.preventDefault()
                 return this.addNew(this.newTag)
             }
@@ -49,6 +49,8 @@ export default {
             this.$el.querySelector('.new-tag').focus();
         },
         addNew(tag) {
+            tag = tag.replace(/[, ]/gi, '');
+
             while(tag[0] == "#") {
                 tag = tag.slice(1);
             }

@@ -16,6 +16,7 @@ class Tag extends \Illuminate\Database\Eloquent\Model
 
     public function insert($tag)
     {
+        $tag = preg_replace('/[, ]/i', "#", $tag);
         $tag = ltrim($tag, "#");
 
         if(strlen($tag) < 1) {
