@@ -135,8 +135,7 @@ export default {
                         type: 'success'
                     })
 
-                    self.getBalance()
-                    self.loadData()
+                    self.getTransactions()
                 }, response => {
                     self.$swal({
                         title: 'Failure',
